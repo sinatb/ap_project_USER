@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:restaurant/user_main_panel.dart';
 
 void main() {
   Server s = Server(DataBase.empty());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ,
+      home: MainPanel(),
     );
   }
 }
