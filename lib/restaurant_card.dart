@@ -11,6 +11,45 @@ class RestaurantCard extends StatefulWidget {
 class _RestaurantCardState extends State<RestaurantCard> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    var restaurant = widget.r;
+    return Card(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              width: 75,
+              height: 75,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Column(
+              children:[
+                Text(restaurant.name , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , color: CommonColors.blue),),
+                ...returnFoodCategory(restaurant),
+              ]
+            ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.star_border , color: CommonColors.black,),
+                    Text(restaurant.score.toString()),
+                  ],
+                ),
+              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){})
+              ],
+            )
+          ],
+        ),
+    );
+  }
+
+  List<Widget> returnFoodCategory(Restaurant r)
+  {
+    return <Widget>[
+      for (var f in widget.r.foodCategories)
+        Text(f.toString().substring(13) , style: TextStyle(fontSize: 10 , color: CommonColors.black),),
+    ];
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:restaurant/restaurants_page.dart';
 
 
 class MainPanel extends StatefulWidget {
@@ -50,7 +51,7 @@ class _MainPanelState extends State<MainPanel> {
 
   var _pages = <Widget>[
     Center(child:Text('to be implemented')),
-    Center(child:Text('to be implemented')),
+    RestaurantsPage(),
     Center(child:Text('to be implemented')),
     Center(child:Text('to be implemented')),
   ];
