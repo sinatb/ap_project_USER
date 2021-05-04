@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:restaurant/restaurants_page.dart';
-
+import 'restaurants_page.dart';
 
 class MainPanel extends StatefulWidget {
   @override
