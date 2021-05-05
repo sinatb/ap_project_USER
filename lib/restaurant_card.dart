@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:user/restaurant_page.dart';
 class RestaurantCard extends StatefulWidget {
   final Restaurant r;
 
@@ -39,7 +40,9 @@ class _RestaurantCardState extends State<RestaurantCard> {
                     Text(restaurant.score.ceil().toString()),
                   ],
                 ),
-              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){}),
+              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantPage(restaurant)));
+              }),
               ],
             )
           ],

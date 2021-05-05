@@ -1,0 +1,104 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:models/models.dart';
+import 'package:user/food_card.dart';
+class RestaurantPage extends StatefulWidget {
+  final Restaurant restaurant;
+
+  RestaurantPage(this.restaurant):super();
+  @override
+  _RestaurantPageState createState() => _RestaurantPageState();
+}
+
+class _RestaurantPageState extends State<RestaurantPage> {
+  @override
+  Widget build(BuildContext context) {
+    FoodMenu menu = Head.of(context).server.getObjectByID(widget.restaurant.menuID!) as FoodMenu;
+    return Scaffold(
+        body: CustomScrollView(
+          slivers: [
+          SliverAppBar(
+            floating: true,
+            centerTitle: true,
+            title: Text(widget.restaurant.name, style: TextStyle(fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: CommonColors.black),),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              tooltip: Strings.get('restaurant-page-return-tooltip'),
+              onPressed: () {Navigator.pop(context);},),
+          ),
+          buildRestaurantDataCard(widget.restaurant),
+          buildHeader(Strings.get('restaurant-page-menu-header')!, CommonColors.black, 24),
+          buildMenu(menu),
+        ],
+      )
+    );
+  }
+
+  Widget buildRestaurantDataCard(Restaurant r) {
+    return SliverPadding(
+      padding: EdgeInsets.all(10),
+      sliver:SliverToBoxAdapter(
+        child: Row(
+          children: [
+            Container(
+              width: 75,
+              height: 75,
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            ),
+            Spacer(),
+            Text(
+              r.name,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: CommonColors.black),
+            ),
+            Spacer(),
+            Column(
+              children: [
+              Icon(
+                  Icons.star_border,
+                  color: CommonColors.black,
+                ),
+                Text(r.score.ceil().toString())
+            ]
+          ),
+        ],
+      )));
+  }
+
+  Widget buildHeader(String title, Color textColor, double fontSize) {
+    return SliverPadding(
+      padding: EdgeInsets.all(10),
+      sliver: SliverToBoxAdapter(
+          child: Column(
+            children: [
+              Text(title,
+                style: TextStyle(color: textColor, fontSize: fontSize,),),
+              Divider(thickness: 2,),
+            ],
+          )
+      ),
+    );
+  }
+
+  Widget buildMenu(FoodMenu menu)
+  {
+    return SliverGrid.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 20,
+      mainAxisSpacing: 20,
+      childAspectRatio: 0.7,
+      children: [
+        for (var food in menu.getFoods(FoodCategory.Iranian)!)
+          FoodCard(food,()=>setState((){})),
+        for (var food in menu.getFoods(FoodCategory.FastFood)!)
+          FoodCard(food,()=>setState((){})),
+        for (var food in menu.getFoods(FoodCategory.SeaFood)!)
+          FoodCard(food,()=>setState((){}))
+      ],
+    );
+  }
+}
