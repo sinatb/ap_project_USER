@@ -12,9 +12,9 @@ class _RestaurantCardState extends State<RestaurantCard> {
   @override
   Widget build(BuildContext context) {
     var restaurant = widget.r;
+    FoodMenu menu = Head.of(context).server.getObjectByID(widget.r.menuID!) as FoodMenu;
     return Card(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               width: 75,
@@ -23,32 +23,33 @@ class _RestaurantCardState extends State<RestaurantCard> {
                 color: Theme.of(context).primaryColor,
               ),
             ),
+            Spacer(),
             Column(
               children:[
-                Text(restaurant.name , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , color: CommonColors.blue),),
-                ...returnFoodCategory(restaurant),
+                Text(restaurant.name , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: CommonColors.blue),),
+                ...returnFoodCategory(menu),
               ]
             ),
+            Spacer(),
             Column(
               children: [
                 Row(
                   children: [
                     Icon(Icons.star_border , color: CommonColors.black,),
-                    Text(restaurant.score.toString()),
+                    Text(restaurant.score.ceil().toString()),
                   ],
                 ),
-              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){})
+              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){}),
               ],
             )
           ],
         ),
     );
   }
-
-  List<Widget> returnFoodCategory(Restaurant r)
+  List<Widget> returnFoodCategory(FoodMenu m)
   {
     return <Widget>[
-      for (var f in widget.r.foodCategories)
+      for (var f in m.categories)
         Text(f.toString().substring(13) , style: TextStyle(fontSize: 10 , color: CommonColors.black),),
     ];
   }
