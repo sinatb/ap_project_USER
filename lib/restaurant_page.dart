@@ -11,6 +11,7 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
+  Map<FoodData,int> ordersOfThisRestaurant = {};
   @override
   Widget build(BuildContext context) {
     FoodMenu menu = Head.of(context).server.getObjectByID(widget.restaurant.menuID!) as FoodMenu;
@@ -26,7 +27,22 @@ class _RestaurantPageState extends State<RestaurantPage> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               tooltip: Strings.get('restaurant-page-return-tooltip'),
-              onPressed: () {Navigator.pop(context);},),
+              onPressed: ()
+              {
+                if (ordersOfThisRestaurant.isNotEmpty) {
+                  var server = Head.of(context).server;
+                  var user = Head.of(context).server.account as UserAccount;
+                  Order order = Order(
+                      server: server,
+                      customer: user.toCustomerData(Address()),
+                      items: ordersOfThisRestaurant,
+                      restaurant: widget.restaurant
+                  );
+                  user.cart.add(order);
+                }
+                Navigator.pop(context);
+              },
+            ),
           ),
           buildRestaurantDataCard(widget.restaurant),
           buildHeader(Strings.get('restaurant-page-menu-header')!, CommonColors.black, 24),
@@ -93,12 +109,13 @@ class _RestaurantPageState extends State<RestaurantPage> {
       childAspectRatio: 0.7,
       children: [
         for (var food in menu.getFoods(FoodCategory.Iranian)!)
-          FoodCard(food,()=>setState((){})),
+          FoodCard(food,ordersOfThisRestaurant,()=>setState((){})),
         for (var food in menu.getFoods(FoodCategory.FastFood)!)
-          FoodCard(food,()=>setState((){})),
+          FoodCard(food,ordersOfThisRestaurant,()=>setState((){})),
         for (var food in menu.getFoods(FoodCategory.SeaFood)!)
-          FoodCard(food,()=>setState((){}))
+          FoodCard(food,ordersOfThisRestaurant,()=>setState((){}))
       ],
     );
   }
+
 }
