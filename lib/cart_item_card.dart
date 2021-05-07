@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 class CartItem extends StatefulWidget {
   final Order order;
-  CartItem(this.order):super();
+  final VoidCallback rebuildMenu;
+  CartItem(this.order , this.rebuildMenu):super();
   @override
   _CartItemState createState() => _CartItemState();
 }
@@ -36,7 +37,17 @@ class _CartItemState extends State<CartItem> {
             subtitle: Text(o.price.toString() + ' X ' + i.toString() + ' = '+(o.price*Price(i)).toString() , style: otherStyle,),
             trailing: IconButton(
               icon: Icon(Icons.clear,color: CommonColors.red,),
-              onPressed: (){},
+              onPressed: () async {
+                var res = await showDialog(
+                    context: context,
+                    builder: (context)=>buildRemoveDialog()
+                );
+                if (!res) return;
+                  setState(() {
+                    widget.order.items.remove(o);
+                  });
+                  widget.rebuildMenu();
+              },
             ),
           ),
         ),
@@ -49,5 +60,24 @@ class _CartItemState extends State<CartItem> {
     print('$retValue');
     return retValue;
   }
-
+  buildRemoveDialog() {
+    return AlertDialog(
+      title: Text(Strings.get('food-remove-dialog-title')!),
+      titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: CommonColors.black),
+      content: SingleChildScrollView(
+        child: Text(Strings.get('remove-food-dialog-message')!),
+      ),
+      contentTextStyle: TextStyle(fontSize: 15, color: CommonColors.black),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(Strings.get('food-remove-dialog-no')!),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(Strings.get('food-remove-dialog-yes')!),
+        ),
+      ],
+    );
+  }
 }

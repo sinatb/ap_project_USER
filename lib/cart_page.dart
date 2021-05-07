@@ -25,12 +25,13 @@ class _UserCartState extends State<UserCart> {
   }
   Widget buildCartItems(List<Order> o )
   {
+
     if(o.isNotEmpty)
       return SliverPadding(
           padding: EdgeInsets.all(10),    
           sliver: SliverList(
             delegate: SliverChildListDelegate(
-              o.map((e) => CartItem(e)).toList(),
+              o.map((e) => CartItem(e,()=>setState((){}))).toList(),
             ),
           ),
       );
