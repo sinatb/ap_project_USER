@@ -45,8 +45,11 @@ class _CartItemState extends State<CartItem> {
                 if (!res) return;
                   setState(() {
                     widget.order.items.remove(o);
+                  if (widget.order.items.isEmpty) {
+                    (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
+                    widget.rebuildMenu();
+                  }
                   });
-                  widget.rebuildMenu();
               },
             ),
           ),
