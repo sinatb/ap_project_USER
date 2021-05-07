@@ -69,6 +69,8 @@ class _OrderFoodState extends State<OrderFood> {
                         var parsed = int.tryParse(num);
                         if (parsed == null || parsed <= 0)
                           return Strings.get('order-bottom-sheet-negative-error');
+                        if (!widget.food.isAvailable)
+                          return Strings.get('order-bottom-sheet-not-available');
                       },
                       onSaved: (num) => numberOfFoods = int.tryParse(num!)!,
                     )

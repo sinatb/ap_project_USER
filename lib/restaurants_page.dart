@@ -23,12 +23,12 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           title: Text(Strings.get('app-bar-restaurants')!),
           leading: IconButton(icon: Icon(Icons.search),tooltip: Strings.get('app-bar-leading-search'),onPressed: (){}),
         ),
-        buildRestaurantGridView(r),
+        buildRestaurantList(r),
       ],
     );
   }
 
-  Widget buildRestaurantGridView(List<Restaurant> restaurants)
+  Widget buildRestaurantList(List<Restaurant> restaurants)
   {
     return SliverPadding(
         padding: EdgeInsets.all(10),

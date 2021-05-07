@@ -42,7 +42,6 @@ class _FoodCardState extends State<FoodCard> {
               {
                 widget.ordered.addAll(await showModalBottomSheet(
                     context: context,
-                    isDismissible: false,
                     builder: (context)=>OrderFood(widget.food)
                 ));
                 print(widget.ordered.toString() );
