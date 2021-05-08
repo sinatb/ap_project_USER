@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:user/favourite_restaurants_page.dart';
 
 class UserAccountPage extends StatefulWidget {
   @override
@@ -24,7 +25,23 @@ class _UserAccountPageState extends State<UserAccountPage> {
             buildHeader('User Credit', CommonColors.black, 18),
             buildFundCard(user),
             buildHeader('User Comments', CommonColors.black, 18),
-            buildHeader('Favourite Restaurants', CommonColors.black, 18)
+            SliverToBoxAdapter(
+              child: Card(
+                child: Center(
+                  child: buildModelButton('Comments', CommonColors.green!, (){}),
+                ),
+              ) ,
+            ),
+            buildHeader('Favourite Restaurants', CommonColors.black, 18),
+            SliverToBoxAdapter(
+              child: Card(
+                child: Center(
+                  child: buildModelButton('Favourite Restaurants', CommonColors.green!, (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FavouriteRestaurantsPage()));
+                  }),
+                ),
+              ),
+            ),
         ]
       );
   }
