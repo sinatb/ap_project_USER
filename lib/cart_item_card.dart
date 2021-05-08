@@ -23,6 +23,37 @@ class _CartItemState extends State<CartItem> {
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ...buildListOfWidget(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildModelButton(Strings.get('cart-page-proceed')!, CommonColors.green!, (){
+                  var userCredit = (Head.of(context).server.account as UserAccount).credit.toInt();
+                  if (userCredit >= widget.order.totalCost.toInt())
+                  {
+                    // cant add to owner account !!!!
+                    Head.of(context).server.addNewOrder(widget.order);
+                    (Head.of(context).server.account as UserAccount).activeOrders.add(widget.order);
+                    (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
+                    (Head.of(context).server.account as UserAccount).credit-= widget.order.totalCost;
+                    widget.rebuildMenu();
+                  } else
+                    {
+                      print('your wallet is empty bro :/');
+                    }
+                  }
+                ),
+                buildModelButton(Strings.get('cart-page-delete')!, CommonColors.red!, () async {
+                  var res = await showDialog(
+                      context: context,
+                      builder: (context)=>buildRemoveDialog()
+                  );
+                  if (res) {
+                    (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
+                    widget.rebuildMenu();
+                  } else return;
+                })
+              ],
+            )
           ],
       )
     );
