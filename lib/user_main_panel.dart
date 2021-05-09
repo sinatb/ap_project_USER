@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/cart_page.dart';
+import 'package:user/order_page.dart';
 import 'package:user/user_account.dart';
 import 'restaurants_page.dart';
 
@@ -53,7 +54,7 @@ class _MainPanelState extends State<MainPanel> {
   var _pages = <Widget>[
     UserCart(),
     RestaurantsPage(),
-    Center(child:Text('to be implemented')),
+    OrdersPage(),
     UserAccountPage(),
   ];
 

@@ -39,5 +39,4 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
         )
       );
   }
-
 }
