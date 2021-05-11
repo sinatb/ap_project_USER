@@ -18,7 +18,7 @@ class _OrderCardState extends State<OrderCard> {
     return Card(
       child : ExpansionTile(
         title: Text(widget.order.restaurant.name , style:headerStyle,),
-        subtitle:Text(widget.order.time.toString()),
+        subtitle:Text(Strings.formatDate(widget.order.time)),
         trailing:Text(widget.order.totalCost.toString()),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
