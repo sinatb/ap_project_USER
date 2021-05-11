@@ -29,20 +29,29 @@ class _RestaurantPageState extends State<RestaurantPage> {
               tooltip: Strings.get('restaurant-page-return-tooltip'),
               onPressed: ()
               {
-                if (ordersOfThisRestaurant.isNotEmpty) {
-                  var server = Head.of(context).server;
-                  var user = Head.of(context).server.account as UserAccount;
-                  Order order = Order(
-                      server: server,
-                      customer: user.toCustomerData(Address()),
-                      items: ordersOfThisRestaurant,
-                      restaurant: widget.restaurant
-                  );
-                  user.cart.add(order);
-                }
                 Navigator.pop(context);
               },
             ),
+            actions: [
+              IconButton(icon: Icon(Icons.check , color: CommonColors.green,),
+                tooltip: Strings.get('restaurant-page-accept-tooltip'),
+                onPressed: ()
+                {
+                  if (ordersOfThisRestaurant.isNotEmpty) {
+                    var server = Head.of(context).server;
+                    var user = Head.of(context).server.account as UserAccount;
+                    Order order = Order(
+                        server: server,
+                        customer: user.toCustomerData(Address()),
+                        items: ordersOfThisRestaurant,
+                        restaurant: widget.restaurant
+                    );
+                    user.cart.add(order);
+                  }
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
           buildRestaurantDataCard(widget.restaurant),
           buildHeader(Strings.get('restaurant-page-menu-header')!, CommonColors.black, 24),

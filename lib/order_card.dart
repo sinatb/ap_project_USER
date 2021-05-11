@@ -3,8 +3,8 @@ import 'package:models/models.dart';
 
 class OrderCard extends StatefulWidget {
   final Order order;
-  final bool canComment;
-  OrderCard(this.order , this.canComment):super();
+  final bool canCommentReOrder;
+  OrderCard(this.order , this.canCommentReOrder):super();
   @override
   _OrderCardState createState() => _OrderCardState();
 }
@@ -23,8 +23,13 @@ class _OrderCardState extends State<OrderCard> {
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ...buildListOfWidget(),
-
-
+          Row(
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           children: [
+              widget.canCommentReOrder?buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , (){}):Container(),
+              widget.canCommentReOrder?buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , (){}):Container(),
+           ],
+          )
         ],
       )
     );

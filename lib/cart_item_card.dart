@@ -9,9 +9,10 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
+  var _formKey = GlobalKey<FormState>();
   TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
   TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
-
+  
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _CartItemState extends State<CartItem> {
                     widget.rebuildMenu();
                   } else
                     {
-                      print('your wallet is empty bro :/');
+                      showDialog(context: context, builder: (context)=>buildInsufficientFundDialog());
                     }
                   }
                 ),
@@ -97,7 +98,7 @@ class _CartItemState extends State<CartItem> {
   buildRemoveDialog() {
     return AlertDialog(
       title: Text(Strings.get('food-remove-dialog-title')!),
-      titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: CommonColors.black),
+      titleTextStyle: headerStyle,
       content: SingleChildScrollView(
         child: Text(Strings.get('remove-food-dialog-message')!),
       ),
@@ -113,5 +114,47 @@ class _CartItemState extends State<CartItem> {
         ),
       ],
     );
+  }
+
+  buildInsufficientFundDialog()
+  {
+    var user = (Head.of(context).server.account as UserAccount);
+    return AlertDialog(
+      title: Text(Strings.get('insufficient-fund-dialog')!),
+      titleTextStyle: headerStyle,
+      actions: [
+       Form
+        (
+           key:_formKey,
+           child :Container(
+             width: 300,
+             height: 50,
+             child:TextFormField(
+             keyboardType: TextInputType.number,
+             validator: (value) {
+               if (value == null || value.isEmpty)
+                 return Strings.get('add-fund-null-error');
+               var intValue = int.tryParse(value);
+               if (intValue! <= 0)
+                 return Strings.get('add-fund-negative-error');
+               },
+             onSaved: (value) => user.credit += Price(int.tryParse(value!)!),
+             decoration: InputDecoration(
+               hintText: Strings.get('add-fund-hint'),
+             ),
+           ),
+           )
+        ),
+        TextButton(
+            onPressed: (){
+              if (_formKey.currentState!.validate())
+                _formKey.currentState!.save();
+              _formKey.currentState!.reset();
+              Navigator.of(context).pop();
+            },
+            child: Text(Strings.get('fund-dialog-add-fund')!,style: otherStyle,)
+        )
+      ],
+    );  
   }
 }

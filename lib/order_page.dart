@@ -24,10 +24,10 @@ class _OrdersPageState extends State<OrdersPage> {
           centerTitle: true,
           title: Text(Strings.get('orders-app-bar')!),
         ),
-        buildHeader('Active Orders', CommonColors.black, 24),
-        buildRestaurantList(activeOrders, true)??Text('No Active Orders' , style: headerStyle),
-        buildHeader('Previous Orders', CommonColors.black, 24),
-        buildRestaurantList(previousOrders, true)??Text('No Previous Orders' , style: headerStyle),
+        buildHeader(Strings.get('orders-active-orders-heading')!, CommonColors.black, 24),
+        ((activeOrders.length>0)?buildRestaurantList(activeOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-active-orders')! , style: headerStyle))))!,
+        buildHeader(Strings.get('orders-previous-orders-heading')!, CommonColors.black, 24),
+        ((previousOrders.length>0)?buildRestaurantList(previousOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-previous-orders')! , style: headerStyle))))!,
       ],
     );
   }
