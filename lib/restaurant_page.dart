@@ -54,7 +54,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
             ],
           ),
           buildRestaurantDataCard(widget.restaurant),
-          buildHeader(Strings.get('restaurant-page-menu-header')!, CommonColors.black, 24),
+          buildHeader(Strings.get('restaurant-page-menu-header')!),
           buildMenu(menu),
         ],
       )
@@ -92,21 +92,6 @@ class _RestaurantPageState extends State<RestaurantPage> {
           ),
         ],
       )));
-  }
-
-  Widget buildHeader(String title, Color textColor, double fontSize) {
-    return SliverPadding(
-      padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Text(title,
-                style: TextStyle(color: textColor, fontSize: fontSize,),),
-              Divider(thickness: 2,),
-            ],
-          )
-      ),
-    );
   }
 
   Widget buildMenu(FoodMenu menu)

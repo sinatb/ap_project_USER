@@ -22,9 +22,9 @@ class _UserAccountPageState extends State<UserAccountPage> {
               centerTitle: true,
               title: Text(Strings.get('user-account-app-bar')!,style: headerStyle,),
             ),
-            buildHeader('User Credit', CommonColors.black, 18),
+            buildHeader('User Credit', otherStyle),
             buildFundCard(user),
-            buildHeader('User Comments', CommonColors.black, 18),
+            buildHeader('User Comments', otherStyle),
             SliverToBoxAdapter(
               child: Card(
                 child: Center(
@@ -32,7 +32,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
                 ),
               ) ,
             ),
-            buildHeader('Favourite Restaurants', CommonColors.black, 18),
+            buildHeader('Favourite Restaurants', otherStyle),
             SliverToBoxAdapter(
               child: Card(
                 child: Center(
@@ -89,20 +89,4 @@ class _UserAccountPageState extends State<UserAccountPage> {
         ),
       ));
     }
-  Widget buildHeader(String title, Color textColor, double fontSize) {
-    return SliverPadding(
-      padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),),
-              Divider(thickness: 2,),
-            ],
-          )
-      ),
-    );
-  }
-
-
-
 }

@@ -24,9 +24,9 @@ class _OrdersPageState extends State<OrdersPage> {
           centerTitle: true,
           title: Text(Strings.get('orders-app-bar')!),
         ),
-        buildHeader(Strings.get('orders-active-orders-heading')!, CommonColors.black, 24),
+        buildHeader(Strings.get('orders-active-orders-heading')!,),
         ((activeOrders.length>0)?buildRestaurantList(activeOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-active-orders')! , style: headerStyle))))!,
-        buildHeader(Strings.get('orders-previous-orders-heading')!, CommonColors.black, 24),
+        buildHeader(Strings.get('orders-previous-orders-heading')!,),
         ((previousOrders.length>0)?buildRestaurantList(previousOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-previous-orders')! , style: headerStyle))))!,
       ],
     );
@@ -40,21 +40,6 @@ class _OrdersPageState extends State<OrdersPage> {
               orders.map((order)=>OrderCard(order,canComment)).toList(),
             )
         )
-    );
-  }
-
-  Widget buildHeader(String title, Color textColor, double fontSize) {
-    return SliverPadding(
-      padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Text(title,
-                style: TextStyle(color: textColor, fontSize: fontSize,),),
-              Divider(thickness: 2,),
-            ],
-          )
-      ),
     );
   }
 }
