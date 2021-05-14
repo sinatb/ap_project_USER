@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/favourite_restaurants_page.dart';
+import 'user_comments.dart';
 
 class UserAccountPage extends StatefulWidget {
   @override
@@ -28,7 +29,11 @@ class _UserAccountPageState extends State<UserAccountPage> {
             SliverToBoxAdapter(
               child: Card(
                 child: Center(
-                  child: buildModelButton('Comments', CommonColors.green!, (){}),
+                  child: buildModelButton('Comments', CommonColors.green!, (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => UserCommentsPage())
+                    );
+                  }),
                 ),
               ) ,
             ),
