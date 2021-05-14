@@ -14,7 +14,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Restaurant> r = Head.of(context).server.dataBase!.restaurants;
+    List<Restaurant> r = Head.of(context).server.getRecommendedRestaurants();
     return CustomScrollView(
       slivers: [
         SliverAppBar(

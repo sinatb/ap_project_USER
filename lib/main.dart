@@ -4,7 +4,7 @@ import 'user_main_panel.dart';
 
 void main() {
   Server s = Server(DataBase.empty());
-  FakeData f = FakeData(s.dataBase!, s);
+  FakeData f = FakeData(s.dataBase, s);
   f.fill();
   s.login('09321321321', 'user321');
   runApp(Head(child : MyApp() , server:  s));
