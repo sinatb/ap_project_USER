@@ -27,7 +27,7 @@ class _OrderCardState extends State<OrderCard> {
           Row(
            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
            children: [
-              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , (){})
+              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , reorderPressed)
                   : SizedBox(height: 10,),
               widget.canCommentReOrder ? buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , showCommentBottomSheet)
                   : SizedBox(height: 10,),
@@ -72,4 +72,18 @@ class _OrderCardState extends State<OrderCard> {
     server.addNewComment(newComment);
   }
 
+
+  void reorderPressed() {
+    var newOrder = widget.order.reorder();
+    if (newOrder == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(Strings.get('reorder-fail')!)),
+      );
+      return;
+    }
+    (Head.of(context).server.account as UserAccount).cart.add(newOrder);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(Strings.get('reorder-success')!)),
+    );
+  }
 }
