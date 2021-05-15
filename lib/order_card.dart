@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'add_comment.dart';
 
 class OrderCard extends StatefulWidget {
   final Order order;
@@ -26,8 +27,10 @@ class _OrderCardState extends State<OrderCard> {
           Row(
            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
            children: [
-              widget.canCommentReOrder?buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , (){}):Container(),
-              widget.canCommentReOrder?buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , (){}):Container(),
+              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , (){})
+                  : SizedBox(height: 10,),
+              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , showCommentBottomSheet)
+                  : SizedBox(height: 10,),
            ],
           )
         ],
@@ -52,4 +55,21 @@ class _OrderCardState extends State<OrderCard> {
     widget.order.items.forEach((key, value) {retValue.add(buildOrderItem(key, value));});
     return retValue;
   }
+
+  void showCommentBottomSheet() async {
+    var result = await showModalBottomSheet(context: context, builder: (context) => CommentBottomSheet());
+    if (result == null) return;
+    var server = Head.of(context).server;
+    var newComment = Comment(
+        server: server,
+        restaurantID: widget.order.restaurant.id!,
+        score: result['score'].toInt(),
+        title: result['title'],
+        message: result['message'],
+    );
+    newComment.serialize(server.serializer);
+    (server.account as UserAccount).commentIDs.add(newComment.id!);
+    server.addNewComment(newComment);
+  }
+
 }
