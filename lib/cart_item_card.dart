@@ -115,7 +115,6 @@ class _CartItemState extends State<CartItem> {
       ],
     );
   }
-
   buildInsufficientFundDialog()
   {
     var user = (Head.of(context).server.account as UserAccount);

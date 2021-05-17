@@ -26,6 +26,8 @@ dependencies:
     sdk: flutter
   models:
     path: "../models/"
+  test: ^1.16.5
+  geolocator: ^7.0.3
 
 
   # The following adds the Cupertino Icons font to your application.

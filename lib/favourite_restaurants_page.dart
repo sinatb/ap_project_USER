@@ -40,7 +40,6 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
         sliver: SliverList(
             delegate:SliverChildListDelegate(
               restaurants.map((restaurant) => RestaurantCard(restaurant)).toList(),
-
             )
         )
     );

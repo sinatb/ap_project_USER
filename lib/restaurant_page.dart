@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/food_card.dart';
@@ -48,6 +47,9 @@ class _RestaurantPageState extends State<RestaurantPage> {
                     );
                     user.cart.add(order);
                   }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    showBar(Strings.get('foods-added-to-cart')!, Duration(milliseconds: 3000))
+                  );
                   Navigator.pop(context);
                 },
               ),
