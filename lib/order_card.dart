@@ -77,13 +77,13 @@ class _OrderCardState extends State<OrderCard> {
     var newOrder = widget.order.reorder();
     if (newOrder == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Strings.get('reorder-fail')!)),
+        showBar(Strings.get('reorder-fail')!,Duration(milliseconds: 2000))
       );
       return;
     }
     (Head.of(context).server.account as UserAccount).cart.add(newOrder);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(Strings.get('reorder-success')!)),
+      showBar(Strings.get('reorder-success')!,Duration(milliseconds: 2000)),
     );
   }
 }

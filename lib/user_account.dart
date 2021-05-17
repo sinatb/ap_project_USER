@@ -83,8 +83,10 @@ class _UserAccountPageState extends State<UserAccountPage> {
               ),
               Flexible(child:
                 buildModelButton('Add', CommonColors.green!, () {
-                  if (_formKey.currentState!.validate())
+                  if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
+                    ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('credit-added')!, Duration(milliseconds: 2000)));
+                  }
                   _formKey.currentState!.reset();
                   setState(() {});
                 }

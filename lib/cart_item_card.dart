@@ -36,6 +36,7 @@ class _CartItemState extends State<CartItem> {
                     (Head.of(context).server.account as UserAccount).activeOrders.add(widget.order);
                     (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
                     (Head.of(context).server.account as UserAccount).credit-= widget.order.totalCost;
+                    ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('order-completed')!, Duration(milliseconds: 2000)));
                     widget.rebuildMenu();
                   } else
                     {
@@ -51,6 +52,9 @@ class _CartItemState extends State<CartItem> {
                   if (res) {
                     (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
                     widget.rebuildMenu();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      showBar(Strings.get('delete_order')!, Duration(milliseconds: 2000))
+                    );
                   } else return;
                 })
               ],

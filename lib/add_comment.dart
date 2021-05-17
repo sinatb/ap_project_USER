@@ -90,5 +90,8 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
       'message' : _message,
       'score' : _score,
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      showBar(Strings.get('comment-added')!, Duration(milliseconds: 2000))
+    );
   }
 }
