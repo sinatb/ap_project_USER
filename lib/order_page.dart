@@ -12,33 +12,51 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
+
     var activeOrders = (Head.of(context).server.account as UserAccount).activeOrders;
     var previousOrders = (Head.of(context).server.account as UserAccount).previousOrders;
-    TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-    TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          centerTitle: true,
-          title: Text(Strings.get('orders-app-bar')!),
-        ),
-        buildHeader(Strings.get('orders-active-orders-heading')!,),
-        ((activeOrders.length>0)?buildRestaurantList(activeOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-active-orders')! , style: headerStyle))))!,
-        buildHeader(Strings.get('orders-previous-orders-heading')!,),
-        ((previousOrders.length>0)?buildRestaurantList(previousOrders, true) : SliverToBoxAdapter(child:Center(child:Text(Strings.get('orders-no-previous-orders')! , style: headerStyle))))!,
-      ],
+    final headerStyle = Theme.of(context).textTheme.headline5!.apply(color: Theme.of(context).accentColor);
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        return await Future.delayed(Duration(seconds: 1));
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            centerTitle: true,
+            title: Text(Strings.get('orders-app-bar')!),
+          ),
+          buildHeader(Strings.get('orders-active-orders-heading')!, headerStyle),
+          activeOrders.isNotEmpty ?
+            buildRestaurantList(activeOrders) :
+            buildEmptyListMessage(Strings.get('orders-no-active-orders')!),
+          buildHeader(Strings.get('orders-previous-orders-heading')!, headerStyle),
+          previousOrders.isNotEmpty ?
+            buildRestaurantList(previousOrders) :
+            buildEmptyListMessage(Strings.get('orders-no-previous-orders')!),
+        ],
+      ),
     );
   }
-  Widget? buildRestaurantList(List<Order> orders , bool canComment)
-  {
+
+  SliverToBoxAdapter buildEmptyListMessage(String text) {
+    return SliverToBoxAdapter(
+      child: Center(
+          child: Text(text)
+      ),
+    );
+  }
+
+  Widget buildRestaurantList(List<Order> orders) {
     return SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverList(
             delegate:SliverChildListDelegate(
-              orders.map((order)=>OrderCard(order,canComment)).toList(),
-            )
+              orders.map((order)=>OrderCard(order)).toList(),
+            ),
         )
     );
   }

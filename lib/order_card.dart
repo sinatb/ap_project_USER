@@ -2,67 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'add_comment.dart';
 
-class OrderCard extends StatefulWidget {
-  final Order order;
-  final bool canCommentReOrder;
-  OrderCard(this.order , this.canCommentReOrder):super();
-  @override
-  _OrderCardState createState() => _OrderCardState();
-}
+class OrderCard extends StatelessWidget {
 
-class _OrderCardState extends State<OrderCard> {
-  TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-  TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
+  final Order order;
+  OrderCard(this.order) : super();
+
+  final headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
+  final otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
-      child : ExpansionTile(
-        title: Text(widget.order.restaurant.name , style:headerStyle,),
-        subtitle:Text(Strings.formatDate(widget.order.time)),
-        trailing:Text(widget.order.totalCost.toString()),
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ...buildListOfWidget(),
-          Row(
-           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-           children: [
-              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , reorderPressed)
-                  : SizedBox(height: 10,),
-              widget.canCommentReOrder ? buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , showCommentBottomSheet)
-                  : SizedBox(height: 10,),
-           ],
-          )
-        ],
-      )
+        child : ExpansionTile(
+          title: Text(order.restaurant.name , style:headerStyle,),
+          subtitle: Wrap(
+            direction: Axis.vertical,
+            spacing: 5,
+            children: [
+              Text(Strings.formatDate(order.time), style: Theme.of(context).textTheme.caption),
+              Text(order.customer.address.text, style: Theme.of(context).textTheme.caption),
+            ],
+          ),
+          maintainState: true,
+          trailing:Text(order.totalCost.toString()),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ...buildListOfItems(),
+            if (order.isDelivered)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , () => reorderPressed(context)),
+                  buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , () => showCommentBottomSheet(context))
+                ],
+              ),
+          ],
+          childrenPadding: const EdgeInsets.all(10),
+        )
     );
   }
-  Widget buildOrderItem(FoodData o , int i)
-  {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Card(
-        child: ListTile(
-          title: Text(o.name , style:headerStyle,),
-          subtitle: Text(o.price.toString() + ' X ' + i.toString() + ' = '+(o.price*Price(i)).toString() , style: otherStyle,),
-          ),
+  Widget buildOrderItem(FoodData data , int count) {
+    return Card(
+      child: ListTile(
+        title: Text(data.name , style:headerStyle,),
+        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' , style: otherStyle,),
         ),
       );
   }
-  List<Widget> buildListOfWidget()
-  {
+  List<Widget> buildListOfItems() {
     List<Widget> retValue = [];
-    widget.order.items.forEach((key, value) {retValue.add(buildOrderItem(key, value));});
+    order.items.forEach((key, value) => retValue.add(buildOrderItem(key, value)));
     return retValue;
   }
 
-  void showCommentBottomSheet() async {
+  void showCommentBottomSheet(BuildContext context) async {
     var result = await showModalBottomSheet(context: context, builder: (context) => CommentBottomSheet());
     if (result == null) return;
     var server = Head.of(context).server;
     var newComment = Comment(
         server: server,
-        restaurantID: widget.order.restaurant.id!,
+        restaurantID: order.restaurant.id!,
         score: result['score'].toInt(),
         title: result['title'],
         message: result['message'],
@@ -72,9 +72,8 @@ class _OrderCardState extends State<OrderCard> {
     server.addNewComment(newComment);
   }
 
-
-  void reorderPressed() {
-    var newOrder = widget.order.reorder();
+  void reorderPressed(BuildContext context) {
+    var newOrder = order.reorder();
     if (newOrder == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('reorder-fail')!,Duration(milliseconds: 2000))

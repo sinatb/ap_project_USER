@@ -16,9 +16,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   int Function(Restaurant, Restaurant)? _sortOrder;
   int _selectedChip = 0;
   int? _selectedCategory;
-  var chips = ['None', 'Closest', 'Score', 'test a', 'test b', 'test c', 'test d', 'test e'];
+  final chips = ['None', 'Closest', 'Score', 'test a', 'test b', 'test c', 'test d', 'test e'];
 
-  var categories = [
+  final categories = [
     ...FoodCategory.values,
     ...FoodCategory.values,
     ...FoodCategory.values,
