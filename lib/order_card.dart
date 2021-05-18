@@ -25,9 +25,13 @@ class OrderCard extends StatelessWidget {
             ],
           ),
           maintainState: true,
-          trailing:Text(order.totalCost.toString()),
+          trailing: Text(order.totalCost.toString()),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(order.code),
+            ),
             ...buildListOfItems(),
             if (order.isDelivered)
               Row(
@@ -42,18 +46,20 @@ class OrderCard extends StatelessWidget {
         )
     );
   }
-  Widget buildOrderItem(FoodData data , int count) {
-    return Card(
-      child: ListTile(
-        title: Text(data.name , style:headerStyle,),
-        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' , style: otherStyle,),
-        ),
-      );
-  }
+
   List<Widget> buildListOfItems() {
     List<Widget> retValue = [];
     order.items.forEach((key, value) => retValue.add(buildOrderItem(key, value)));
     return retValue;
+  }
+
+  Widget buildOrderItem(FoodData data , int count) {
+    return Card(
+      child: ListTile(
+        title: Text(data.name , style: headerStyle,),
+        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' , style: otherStyle,),
+        ),
+      );
   }
 
   void showCommentBottomSheet(BuildContext context) async {
