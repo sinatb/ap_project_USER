@@ -1,52 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/restaurant_page.dart';
-class RestaurantCard extends StatefulWidget {
-  final Restaurant r;
 
-  RestaurantCard(this.r):super();
-  @override
-  _RestaurantCardState createState() => _RestaurantCardState();
-}
+class RestaurantCard extends StatelessWidget {
 
-class _RestaurantCardState extends State<RestaurantCard> {
+  final Restaurant restaurant;
+  RestaurantCard(this.restaurant) : super();
+
   @override
   Widget build(BuildContext context) {
-    var restaurant = widget.r;
-    FoodMenu menu = Head.of(context).server.getObjectByID(widget.r.menuID!) as FoodMenu;
+
     return Card(
-        child: Row(
-          children: [
-            Container(
-              width: 75,
-              height: 75,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            Spacer(),
-            Column(
-              children:[
-                Text(restaurant.name , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: CommonColors.blue),),
-                ...returnFoodCategory(menu),
-              ]
-            ),
-            Spacer(),
-            Column(
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantPage(restaurant)));
+          },
+          highlightColor: Theme.of(context).accentColor.withOpacity(0.3),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 7.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.star_border , color: CommonColors.black,),
-                    Text(restaurant.score.ceil().toString()),
-                  ],
+                Container(
+                  width: 75,
+                  height: 75,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              buildModelButton(Strings.get('restaurant-card-inf')!,CommonColors.green!, (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantPage(restaurant)));
-              }),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(restaurant.name, style: Theme.of(context).textTheme.headline6),
+                    ...restaurant.foodCategories.map((e) => Text(Strings.get(e.toString())!, style: Theme.of(context).textTheme.caption))
+                  ],
+                  direction: Axis.vertical,
+                  spacing: 3,
+                ),
+                buildScoreFill(restaurant.score),
               ],
-            )
-          ],
+            ),
+          ),
         ),
+      ),
     );
   }
   List<Widget> returnFoodCategory(FoodMenu m)
