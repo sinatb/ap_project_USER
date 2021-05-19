@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:user/order_card.dart';
 import 'restaurant_page_header.dart';
 import 'package:user/restaurant_menu_tab.dart';
+import 'package:user/restaurant_comments_tab.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
@@ -17,7 +19,9 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
   final orderedItems = <FoodData, int>{};
 
   final _tabs = <Tab>[
-    Tab(text: 'Menu',),
+    Tab(text: Strings.get('restaurant-page-menu-header'),),
+    Tab(text: Strings.get('comments-tab-title')),
+    Tab(text: Strings.get('orders-previous-orders-heading'),),
   ];
 
   @override
@@ -52,6 +56,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
                 TabBar(
                   controller: _tabController,
                   tabs: _tabs,
+                  isScrollable: true,
                   labelColor: Theme.of(context).primaryColorDark,
                 ),
                 widget.restaurant,
@@ -62,7 +67,11 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
         },
         body: TabBarView(
           controller: _tabController,
-          children: <Widget>[RestaurantMenuTab(widget.restaurant, orderedItems)],
+          children: <Widget>[
+            RestaurantMenuTab(widget.restaurant, orderedItems),
+            RestaurantComments(widget.restaurant.commentIDs),
+            buildPreviousOrdersTab(),
+          ],
         ),
       ),
     );
@@ -95,7 +104,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
     return FlexibleSpaceBar(
       background: Container(
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 13.0),
+          padding: const EdgeInsets.only(bottom: 7.0),
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 5,
@@ -107,8 +116,8 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
         ),
         alignment: Alignment.bottomRight,
       ),
-      title: Text(widget.restaurant.name),
-      centerTitle: true,
+      title: Text(widget.restaurant.name, style: TextStyle(fontSize: 15),),
+      centerTitle: false,
       collapseMode: CollapseMode.pin,
     );
   }
@@ -127,6 +136,19 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
           }
         });
       },
+    );
+  }
+
+  buildPreviousOrdersTab() {
+    var orders = Head.of(context).server.account!.previousOrders
+    .where((order) => order.restaurant.id == widget.restaurant.id);
+    if (orders.isEmpty) {
+      return Center(
+        child: Text(Strings.get('orders-no-previous-orders')!),
+      );
+    }
+    return ListView(
+      children: orders.map((e) => OrderCard(e)).toList(growable: false),
     );
   }
 

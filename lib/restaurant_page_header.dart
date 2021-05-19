@@ -10,6 +10,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Material(child: _tabBar),
       ],
