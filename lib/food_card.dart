@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/order_bottomsheet.dart';
-class FoodCard extends StatefulWidget {
+
+class FoodCard extends StatelessWidget {
+
   final Food food;
-  Map<FoodData,int> ordered;
-  final VoidCallback restaurantPageState;
+  final Map<FoodData,int> orderedItems;
 
-  FoodCard(this.food ,this.ordered,this.restaurantPageState) : super();
-  @override
-  _FoodCardState createState() => _FoodCardState();
-}
+  FoodCard(this.food ,this.orderedItems) : super();
 
-class _FoodCardState extends State<FoodCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,9 +25,9 @@ class _FoodCardState extends State<FoodCard> {
           ),
           Flexible(
             child: ListTile(
-              title: Text(widget.food.name),
-              trailing: buildAvailableIcon(widget.food.isAvailable),
-              subtitle: Text('${widget.food.price} ${Strings.get('toman')}'),
+              title: Text(food.name),
+              trailing: buildAvailableIcon(food.isAvailable),
+              subtitle: Text('${food.price} ${Strings.get('toman')}'),
             ),
             flex: 2,
             fit: FlexFit.tight,
@@ -38,13 +35,11 @@ class _FoodCardState extends State<FoodCard> {
           Flexible(
             child: TextButton(
               child: Text(Strings.get('restaurant-page-button')!),
-              onPressed: () async
-              {
-                widget.ordered.addAll(await showModalBottomSheet(
+              onPressed: () async {
+                orderedItems.addAll(await showModalBottomSheet(
                     context: context,
-                    builder: (context)=>OrderFood(widget.food)
+                    builder: (context) => OrderFood(food)
                 ));
-                print(widget.ordered.toString() );
               },
             ),
             flex: 1,
