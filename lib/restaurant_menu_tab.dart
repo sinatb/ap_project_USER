@@ -11,23 +11,28 @@ class RestaurantMenuTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var menu = Head.of(context).server.getObjectByID(restaurant.menuID!) as FoodMenu;
-    return buildMenu(menu);
-  }
-
-  Widget buildMenu(FoodMenu menu) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 20,
-      mainAxisSpacing: 20,
-      childAspectRatio: 0.7,
-      children: [
-        for (var food in menu.getFoods(FoodCategory.Iranian)!)
-          FoodCard(food, orderedItems, () => null),
-        for (var food in menu.getFoods(FoodCategory.FastFood)!)
-          FoodCard(food, orderedItems, () => null),
-        for (var food in menu.getFoods(FoodCategory.SeaFood)!)
-          FoodCard(food, orderedItems, () => null)
+    return CustomScrollView(
+      slivers: [
+        for (var category in menu.categories)
+          ...buildFoodsByCategory(menu.getFoods(category)!, category, context)
       ],
     );
+  }
+
+  List<Widget> buildFoodsByCategory(List<Food> foods, FoodCategory category, BuildContext context) {
+    var headerStyle = Theme.of(context).textTheme.headline5!.apply(color: Theme.of(context).accentColor);
+    return <Widget>[
+      buildHeader(Strings.get(category.toString())!, headerStyle),
+      SliverPadding(
+        padding: const EdgeInsets.all(10.0),
+        sliver: SliverGrid.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 0.7,
+          children: foods.map((e) => FoodCard(e, orderedItems)).toList(growable: false),
+        ),
+      ),
+    ];
   }
 }
