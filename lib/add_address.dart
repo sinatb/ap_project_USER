@@ -17,8 +17,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
   var _formKey = GlobalKey<FormState>();
   var _name = '';
   var _text = '';
-  var _latitude = 0.0;
-  var _longitude = 0.0;
+  var _latitude;
+  var _longitude;
   TextEditingController? _controller;
   
   @override
@@ -35,6 +35,13 @@ class _AddAddressPageState extends State<AddAddressPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    _latitude ??= widget.address?.latitude;
+    _longitude ??= widget.address?.longitude;
+    if (widget.address != null) {
+      _controller!.text = '${_latitude.toStringAsFixed(5)}, ${_longitude.toStringAsFixed(5)}';
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.get(widget.address == null ? 'add-address-title' : 'edit-address-title')!),
@@ -54,6 +61,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   decoration: InputDecoration(
                     hintText: Strings.get('address-name-hint'),
                   ),
+                  initialValue: widget.address?.name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return Strings.get('empty-address-name');
@@ -65,6 +73,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   decoration: InputDecoration(
                     hintText: Strings.get('address-text-hint'),
                   ),
+                  initialValue: widget.address?.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return Strings.get('empty-address-text');
@@ -96,6 +105,20 @@ class _AddAddressPageState extends State<AddAddressPage> {
   }
 
   void setLatLng() async {
+    var result;
+    if (_latitude == null && _longitude == null) {
+      result = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => MapPage(key: UniqueKey(),)),
+      );
+    } else {
+      result = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => MapPage(key: UniqueKey(), latitude: _latitude, longitude: _longitude)),
+      );
+    }
+    if (result == null) return;
+    _latitude = result['lat'];
+    _longitude = result['lng'];
+    _controller!.text = '${_latitude.toStringAsFixed(5)}, ${_longitude.toStringAsFixed(5)}';
   }
 
   void donePressed() {
