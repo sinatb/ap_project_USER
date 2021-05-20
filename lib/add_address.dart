@@ -37,74 +37,77 @@ class _AddAddressPageState extends State<AddAddressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.address == null ? 'add-address-title' : 'edit-address-title'),
+        title: Text(Strings.get(widget.address == null ? 'add-address-title' : 'edit-address-title')!),
         elevation: 1,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: Strings.get('address-name-hint'),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          child: LimitedBox(
+            maxHeight: MediaQuery.of(context).size.height/2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: Strings.get('address-name-hint'),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return Strings.get('empty-address-name');
+                    }
+                  },
+                  onSaved: (value) => _name = value!,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return Strings.get('empty-address-name');
-                  }
-                },
-                onSaved: (value) => _name = value!,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: Strings.get('address-text-hint'),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: Strings.get('address-text-hint'),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return Strings.get('empty-address-text');
+                    }
+                  },
+                  onSaved: (value) => _text = value!,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return Strings.get('empty-address-text');
-                  }
-                },
-                onSaved: (value) => _text = value!,
-              ),
-              TextFormField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.location_on),
-                  hintText: Strings.get('address-coordinates-hint'),
+                TextFormField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.location_on),
+                    hintText: Strings.get('address-coordinates-hint'),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return Strings.get('empty-address-coordinates');
+                    }
+                  },
+                  onTap: setLatLng,
+                  readOnly: true,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return Strings.get('empty-address-coordinates');
-                  }
-                },
-                onTap: setLatLng,
-                enabled: false,
-                readOnly: true,
-              ),
-              buildModelButton(Strings.get('done')!, Theme.of(context).accentColor, donePressed)
-            ],
+                buildModelButton(Strings.get('done')!, Theme.of(context).accentColor, donePressed)
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void setLatLng() {
-
+  void setLatLng() async {
   }
 
   void donePressed() {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
     if (widget.address == null) {
-      return Navigator.of(context).pop(Address(text: _text, latitude: _latitude, longitude: _longitude));
+      return Navigator.of(context).pop(Address(name: _name, text: _text, latitude: _latitude, longitude: _longitude));
     }
+    widget.address!.name = _name;
     widget.address!.text = _text;
     widget.address!.latitude = _latitude;
     widget.address!.longitude = _longitude;
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 }

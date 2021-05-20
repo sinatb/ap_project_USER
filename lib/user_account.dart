@@ -171,6 +171,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
             if (result == null) return;
             setState(() {
               user.addAddress(result);
+              //TODO snack bar
             });
           },),
         ),
@@ -208,12 +209,12 @@ class _UserAccountPageState extends State<UserAccountPage> {
         },
         // edit address
         onTap: () async {
-          Navigator.of(context).push(
+          bool? result = await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AddAddressPage(address))
           );
-          setState(() {
-
-          });
+          if (result == null || result == false) return;
+          //TODO snack bar
+          setState(() {});
         },
       ),
     );
