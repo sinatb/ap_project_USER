@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/cart_item_card.dart';
+import 'user_account.dart';
 
 class UserCart extends StatefulWidget {
   @override
@@ -18,6 +19,13 @@ class _UserCartState extends State<UserCart> {
             floating: true,
             centerTitle: true,
             title: Text(Strings.get('cart-page-app-bar')!,style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: CommonColors.black)),
+            actions: [
+              IconButton(icon: Icon(Icons.person), onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => UserAccountPage())
+                );
+              })
+            ],
           ),
           buildCartItems(cartList),
       ],

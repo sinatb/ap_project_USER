@@ -55,7 +55,6 @@ class _MainPanelState extends State<MainPanel> {
     UserCart(),
     RestaurantsPage(),
     OrdersPage(),
-    UserAccountPage(),
   ];
 
 }
