@@ -151,7 +151,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
 
   Widget buildAddressesTile() {
     var cards = <Widget>[];
-    user.addresses.forEach((key, value) => cards.add(buildAddressCard(key, value, key == user.defaultAddress)));
+    user.addresses.forEach((e) => cards.add(buildAddressCard(e, e.name == user.defaultAddressName)));
     return ExpansionTile(
       title: Text(Strings.get('addressed-title')!),
       leading: Icon(Icons.location_on_outlined),
@@ -170,7 +170,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
             );
             if (result == null) return;
             setState(() {
-              user.addAddress('', result);
+              user.addAddress(result);
             });
           },),
         ),
@@ -178,7 +178,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
     );
   }
 
-  Widget buildAddressCard(String name, Address address, bool isDefault) {
+  Widget buildAddressCard(Address address, bool isDefault) {
     final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -188,14 +188,14 @@ class _UserAccountPageState extends State<UserAccountPage> {
         boxShadow: shadows,
       ),
       child: ListTile(
-        title: Text(name),
+        title: Text(address.name),
         leading: isDefault ? Icon(Icons.check_circle, color: Colors.green,) : null,
         subtitle: Text(address.text),
         isThreeLine: true,
         visualDensity: VisualDensity.comfortable,
         trailing: isDefault ? null : IconButton(icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.red,), onPressed: () {
           setState(() {
-            user.removeAddress(name);
+            user.removeAddress(address);
           });
         },),
         // set as default address
@@ -203,17 +203,16 @@ class _UserAccountPageState extends State<UserAccountPage> {
           var result = await showDialog(context: context, builder: (context) => buildSetDefaultDialog());
           if (result == null || result == false) return;
           setState(() {
-            user.defaultAddress = name;
+            user.defaultAddressName = address.name;
           });
         },
         // edit address
         onTap: () async {
-          var result = await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => AddAddressPage())
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AddAddressPage(address))
           );
-          if (result == null) return;
           setState(() {
-            user.addAddress(name, result);
+
           });
         },
       ),

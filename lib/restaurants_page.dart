@@ -100,8 +100,8 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
 
   void changeSortOrder() {
     var user = Head.of(context).server.account as UserAccount;
-    double latitude = user.addresses[user.defaultAddress]!.latitude;
-    double longitude = user.addresses[user.defaultAddress]!.longitude;
+    double latitude = user.defaultAddress!.latitude;
+    double longitude = user.defaultAddress!.longitude;
     switch(_selectedChip) {
       case 0:
         _sortOrder = null;
