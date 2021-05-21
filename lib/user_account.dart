@@ -171,8 +171,10 @@ class _UserAccountPageState extends State<UserAccountPage> {
             if (result == null) return;
             setState(() {
               user.addAddress(result);
-              //TODO snack bar
             });
+            ScaffoldMessenger.of(context).showSnackBar(
+              showBar(Strings.get('address-added')!,Duration(milliseconds: 2000)),
+            );
           },),
         ),
       ],
@@ -190,9 +192,8 @@ class _UserAccountPageState extends State<UserAccountPage> {
       ),
       child: ListTile(
         title: Text(address.name),
-        leading: isDefault ? Icon(Icons.check_circle, color: Colors.green,) : null,
+        leading: Opacity(child: Icon(Icons.check_circle, color: Colors.green,), opacity: isDefault ? 1 : 0,),
         subtitle: Text(address.text),
-        isThreeLine: true,
         visualDensity: VisualDensity.comfortable,
         trailing: isDefault ? null : IconButton(icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.red,), onPressed: () {
           setState(() {
@@ -213,8 +214,14 @@ class _UserAccountPageState extends State<UserAccountPage> {
               MaterialPageRoute(builder: (context) => AddAddressPage(address))
           );
           if (result == null || result == false) return;
-          //TODO snack bar
-          setState(() {});
+          setState(() {
+            if (isDefault) {
+              user.defaultAddressName = address.name;
+            }
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            showBar(Strings.get('address-edited')!,Duration(milliseconds: 2000)),
+          );
         },
       ),
     );
@@ -223,7 +230,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
   Widget buildSetDefaultDialog() {
     return AlertDialog(
       actions: [
-        TextButton(child: Text(Strings.get('set-default-address')!), onPressed: () {
+        TextButton(child: Text(Strings.get('set-default-address')!, style: Theme.of(context).textTheme.subtitle1,), onPressed: () {
           Navigator.of(context).pop(true);
         },
         ),
