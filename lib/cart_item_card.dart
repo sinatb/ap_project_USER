@@ -3,7 +3,8 @@ import 'package:models/models.dart';
 class CartItem extends StatefulWidget {
   final Order order;
   final VoidCallback rebuildMenu;
-  CartItem(this.order , this.rebuildMenu):super();
+  CartItem(this.order , this.rebuildMenu) : super();
+
   @override
   _CartItemState createState() => _CartItemState();
 }
@@ -80,12 +81,18 @@ class _CartItemState extends State<CartItem> {
 
   void proceedPressed(){
 
-    var user = Head.of(context).server.account as UserAccount;
+    var server = Head.of(context).server;
+    var user = server.account as UserAccount;
+    if (!server.isInArea(user.defaultAddress!, widget.order.restaurant.address, widget.order.restaurant.areaOfDispatch)) {
+      showDialog(context: context, builder: (context) => buildOutsideAreaDialog());
+      return;
+    }
 
     if (widget.order.totalCost.toInt() > user.credit.toInt()) {
       showDialog(context: context, builder: (context) => buildInsufficientFundDialog());
       return;
     }
+    widget.order.customer = user.toCustomerData(user.defaultAddress!);
     widget.order.sendRequest();
     user.activeOrders.add(widget.order);
     user.cart.remove(widget.order);
@@ -176,6 +183,16 @@ class _CartItemState extends State<CartItem> {
             },
             child: Text(Strings.get('fund-dialog-add-fund')!, style: otherStyle,)
         ),
+      ],
+    );
+  }
+
+  buildOutsideAreaDialog() {
+    return AlertDialog(
+      title: Text(Strings.get('outside-area-dialog-title')!),
+      content: Text(Strings.get('outside-area-dialog-message')!),
+      actions: [
+        TextButton(child: Text(Strings.get('ok')!), onPressed: () => Navigator.of(context).pop()),
       ],
     );
   }

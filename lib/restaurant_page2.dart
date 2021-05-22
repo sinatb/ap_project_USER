@@ -83,18 +83,18 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
       onPressed: () {
         if (orderedItems.isNotEmpty) {
           var server = Head.of(context).server;
-          var user = Head.of(context).server.account as UserAccount;
+          var user = server.account as UserAccount;
           Order order = Order(
               server: server,
-              customer: user.toCustomerData(Address()),
+              customer: user.toCustomerData(user.defaultAddress!),
               items: orderedItems,
               restaurant: widget.restaurant
           );
           user.cart.add(order);
+          ScaffoldMessenger.of(context).showSnackBar(
+              showBar(Strings.get('foods-added-to-cart')!, Duration(milliseconds: 3000))
+          );
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-            showBar(Strings.get('foods-added-to-cart')!, Duration(milliseconds: 3000))
-        );
         Navigator.pop(context);
       },
     );
