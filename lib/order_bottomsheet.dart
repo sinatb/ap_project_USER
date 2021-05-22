@@ -22,9 +22,7 @@ class OrderFood extends StatelessWidget {
             Container(
               width: phoneSize.width,
               height: phoneSize.height / 4,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+              child : food.image,
             ),
             Padding(
               padding: EdgeInsets.all(10),

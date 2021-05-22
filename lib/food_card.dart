@@ -16,6 +16,7 @@ class FoodCard extends StatelessWidget {
         children: [
           Flexible(
             child: Container(
+              child: food.image,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
