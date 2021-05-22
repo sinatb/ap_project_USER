@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/cart_page.dart';
 import 'package:user/order_page.dart';
-import 'package:user/user_account.dart';
 import 'restaurants_page.dart';
 
 class MainPanel extends StatefulWidget {
@@ -35,10 +34,6 @@ class _MainPanelState extends State<MainPanel> {
           BottomNavigationBarItem(
             icon: Icon(Icons.fastfood_outlined,color: CommonColors.black,),
             label: Strings.get('bottom-nav-orders'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin_outlined,color: CommonColors.black,),
-            label: Strings.get('bottom-nav-user-account'),
           ),
         ],
         currentIndex:_currentIndex,
