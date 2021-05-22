@@ -7,8 +7,8 @@ import 'package:user/restaurant_comments_tab.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
-
-  RestaurantPage(this.restaurant) : super();
+  final bool isInArea;
+  RestaurantPage(this.restaurant, this.isInArea) : super();
   @override
   _RestaurantPageState createState() => _RestaurantPageState();
 }
@@ -107,8 +107,9 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
           padding: const EdgeInsets.only(bottom: 7.0),
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 5,
+            spacing: 2,
             children: [
+              buildArea(widget.isInArea, true),
               buildScoreFill(widget.restaurant.score),
               buildFavoriteButton(),
             ],

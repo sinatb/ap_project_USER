@@ -10,11 +10,14 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    var server = Head.of(context).server;
+    var user = server.account as UserAccount;
+    var isInArea = server.isInArea(user.defaultAddress!, restaurant.address, restaurant.areaOfDispatch);
     return Card(
       child: Material(
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantPage(restaurant)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantPage(restaurant, isInArea)));
           },
           highlightColor: Theme.of(context).accentColor.withOpacity(0.3),
           child: Padding(
@@ -38,7 +41,15 @@ class RestaurantCard extends StatelessWidget {
                   direction: Axis.vertical,
                   spacing: 3,
                 ),
-                buildScoreFill(restaurant.score),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    buildScoreFill(restaurant.score),
+                    buildArea(isInArea),
+                  ],
+                  direction: Axis.vertical,
+                  spacing: 3,
+                ),
               ],
             ),
           ),
@@ -46,8 +57,8 @@ class RestaurantCard extends StatelessWidget {
       ),
     );
   }
-  List<Widget> returnFoodCategory(FoodMenu m)
-  {
+
+  List<Widget> returnFoodCategory(FoodMenu m) {
     return <Widget>[
       for (var f in m.categories)
         Text(f.toString().substring(13) , style: TextStyle(fontSize: 10 , color: CommonColors.black),),
