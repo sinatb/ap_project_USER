@@ -26,6 +26,7 @@ class RestaurantCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
+                  child:restaurant.logo,
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
