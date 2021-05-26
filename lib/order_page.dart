@@ -16,7 +16,7 @@ class _OrdersPageState extends State<OrdersPage> {
     var activeOrders = (Head.of(context).server.account as UserAccount).activeOrders;
     var previousOrders = (Head.of(context).server.account as UserAccount).previousOrders;
 
-    final headerStyle = Theme.of(context).textTheme.headline5!.apply(color: Theme.of(context).accentColor);
+    final headerStyle = Theme.of(context).textTheme.headline1!;
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -27,7 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
           SliverAppBar(
             floating: true,
             centerTitle: true,
-            title: Text(Strings.get('orders-app-bar')!),
+            title: Text(Strings.get('orders-app-bar')!,style: Theme.of(context).textTheme.headline1,),
           ),
           buildHeader(Strings.get('orders-active-orders-heading')!, headerStyle),
           activeOrders.isNotEmpty ?

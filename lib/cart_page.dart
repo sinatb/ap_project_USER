@@ -18,9 +18,9 @@ class _UserCartState extends State<UserCart> {
           SliverAppBar(
             floating: true,
             centerTitle: true,
-            title: Text(Strings.get('cart-page-app-bar')!,style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: CommonColors.black)),
+            title: Text(Strings.get('cart-page-app-bar')!,style: Theme.of(context).textTheme.headline1),
             actions: [
-              IconButton(icon: Icon(Icons.person), onPressed: () {
+              IconButton(icon: Icon(Icons.person,color: Theme.of(context).iconTheme.color,), onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => UserAccountPage())
                 );

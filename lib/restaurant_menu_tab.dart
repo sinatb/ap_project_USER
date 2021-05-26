@@ -20,7 +20,7 @@ class RestaurantMenuTab extends StatelessWidget {
   }
 
   List<Widget> buildFoodsByCategory(List<Food> foods, FoodCategory category, BuildContext context) {
-    var headerStyle = Theme.of(context).textTheme.headline5!.apply(color: Theme.of(context).accentColor);
+    var headerStyle = Theme.of(context).textTheme.headline1!;
     return <Widget>[
       buildHeader(Strings.get(category.toString())!, headerStyle),
       SliverPadding(

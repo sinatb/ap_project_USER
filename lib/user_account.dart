@@ -23,7 +23,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 1,
-        title: Text(Strings.get('user-account-app-bar')!),
+        title: Text(Strings.get('user-account-app-bar')!,style: Theme.of(context).textTheme.headline1,),
       ),
       body: ListView(
         children: [

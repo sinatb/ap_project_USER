@@ -35,9 +35,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
         SliverAppBar(
           floating: true,
           centerTitle: true,
-          title: Text(Strings.get('app-bar-restaurants')!),
-          leading: _bottomSheetFilter == null ? IconButton(icon: Icon(Icons.search),tooltip: Strings.get('app-bar-leading-search'), onPressed: searchPressed)
-          : IconButton(icon: Icon(Icons.close), onPressed: () => setState(() {
+          title: Text(Strings.get('app-bar-restaurants')! , style: Theme.of(context).textTheme.headline1,),
+          leading: _bottomSheetFilter == null ? IconButton(icon: Icon(Icons.search,color: Theme.of(context).iconTheme.color,),tooltip: Strings.get('app-bar-leading-search'), onPressed: searchPressed)
+          : IconButton(icon: Icon(Icons.close,color: Theme.of(context).iconTheme.color,), onPressed: () => setState(() {
             _bottomSheetFilter = null;
           })),
         ),

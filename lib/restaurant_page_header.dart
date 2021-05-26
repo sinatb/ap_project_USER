@@ -27,10 +27,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
         ),
         Text(
           r.name,
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: CommonColors.black),
+          style: Theme.of(context).textTheme.headline1,
         ),
         Column(
             children: [
