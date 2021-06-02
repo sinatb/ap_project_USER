@@ -49,20 +49,6 @@ class _UserAccountPageState extends State<UserAccountPage> {
     );
   }
 
-  Widget buildTextField(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 0.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: label,
-        ),
-        enabled: false,
-        readOnly: true,
-        initialValue: value,
-      ),
-    );
-  }
-
   Widget buildFundTile() {
     return ExpansionTile(
       title: Text(Strings.get('add-fund-hint')!),

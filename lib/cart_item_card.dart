@@ -13,6 +13,7 @@ class _CartItemState extends State<CartItem> {
 
   TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
   TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
+  Discount? _discount;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _CartItemState extends State<CartItem> {
               Text(widget.order.customer.address.text, style: Theme.of(context).textTheme.caption),
             ],
           ),
-          trailing: Text(widget.order.totalCost.toString()),
+          trailing: buildTotalCost(),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ...buildListOfItems(),
@@ -35,7 +36,8 @@ class _CartItemState extends State<CartItem> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildModelButton(Strings.get('cart-page-proceed')!, CommonColors.green!, proceedPressed),
-                buildModelButton(Strings.get('cart-page-delete')!, CommonColors.red!, deletePressed)
+                buildModelButton(Strings.get('cart-page-delete')!, CommonColors.red!, deletePressed),
+                buildModelButton(Strings.get('discount-button')!, Theme.of(context).buttonColor, discountPressed)
               ],
             )
           ],
@@ -79,6 +81,13 @@ class _CartItemState extends State<CartItem> {
     );
   }
 
+  Price calculateTotalPrice(Price total) {
+    if (_discount == null) {
+      return total;
+    }
+    return total.apply(_discount!);
+  }
+
   void proceedPressed(){
 
     var server = Head.of(context).server;
@@ -88,7 +97,7 @@ class _CartItemState extends State<CartItem> {
       return;
     }
 
-    if (widget.order.totalCost.toInt() > user.credit.toInt()) {
+    if (calculateTotalPrice(widget.order.totalCost).toInt() > user.credit.toInt()) {
       showDialog(context: context, builder: (context) => buildInsufficientFundDialog());
       return;
     }
@@ -96,7 +105,7 @@ class _CartItemState extends State<CartItem> {
     widget.order.sendRequest();
     user.activeOrders.add(widget.order);
     user.cart.remove(widget.order);
-    user.credit -= widget.order.totalCost;
+    user.credit -= calculateTotalPrice(widget.order.totalCost);
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
       showBar(Strings.get('order-completed')!, Duration(milliseconds: 2000),),
@@ -195,5 +204,48 @@ class _CartItemState extends State<CartItem> {
         TextButton(child: Text(Strings.get('ok')!), onPressed: () => Navigator.of(context).pop()),
       ],
     );
+  }
+
+  Widget buildTotalCost() {
+    if (_discount == null) {
+      return Text(widget.order.totalCost.toString());
+    }
+    return Text('${_discount!.percent}% ${widget.order.totalCost.apply(_discount!)}');
+  }
+
+  void discountPressed() {
+    var formKey = GlobalKey<FormState>();
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text(Strings.get('discount-dialog-title')!),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            initialValue: _discount?.code,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                _discount = null;
+                setState(() {
+                  Navigator.of(context).pop();
+                });
+                return null;
+              }
+              _discount = Head.of(context).server.validateDiscount(value);
+              if (_discount == null) {
+                return Strings.get('discount-invalid-code');
+              }
+              setState(() {
+                Navigator.of(context).pop();
+              });
+            },
+          ),
+        ),
+        actions: [
+          TextButton(child: Text(Strings.get('apply')!), onPressed: () {
+            formKey.currentState!.validate();
+          }),
+        ],
+      );
+    });
   }
 }
