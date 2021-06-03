@@ -6,7 +6,7 @@ void main() {
   Server s = Server();
   FakeData f = FakeData(s);
   f.fill();
-  s.login('09321321321', 'user321');
+  s.login('09321321321', 'user321', true);
   runApp(Head(child : MyApp() , server:  s));
 }
 
