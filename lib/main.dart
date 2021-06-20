@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/sign_up_panel.dart';
+import 'sign_up_panel.dart';
 
 void main() {
   Server s = Server();
