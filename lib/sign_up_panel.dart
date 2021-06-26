@@ -14,6 +14,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
 
   late Server server;
   String? phoneNumber;
+  String? password;
   String? firstName;
   String? lastName;
   Address? address;
@@ -86,6 +87,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
                     onSaved: (value) => lastName = value,
                   ),
                   buildLoginPhoneNumberField(server, (value) => phoneNumber = value),
+                  PasswordField(server, (value) => password = value),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: Strings.get('signup-address-hint'),
@@ -148,7 +150,8 @@ class _SignUpPanelState extends State<SignUpPanel> {
       });
       return;
     }
-    server.signUpUser(firstName!, lastName!, phoneNumber!, address!);
+    //TODO add password field
+    server.signUpUser(firstName!, lastName!, password!, phoneNumber!, address!);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 
