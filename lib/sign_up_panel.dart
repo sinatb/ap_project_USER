@@ -144,14 +144,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
   void signUpPressed() {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
-    if (!server.isPhoneNumberUnique(phoneNumber!)) {
-      setState(() {
-        _duplicateNumber = true;
-      });
-      return;
-    }
-    //TODO add password field
-    server.signUpUser(firstName!, lastName!, password!, phoneNumber!, address!);
+    server.signUpUser(firstName!, lastName!, phoneNumber!, password!, address!);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 

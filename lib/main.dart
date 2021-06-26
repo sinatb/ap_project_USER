@@ -4,10 +4,10 @@ import 'sign_up_panel.dart';
 
 void main() {
   Server s = Server();
-  s.setSocket("192.168.1.4", 8081);
+  s.setSocket("192.168.1.2", 8081);
   //s.setStatus(true);
-  FakeData f = FakeData(s);
-  f.fill();
+  // FakeData f = FakeData(s);
+  // f.fill();
   runApp(Head(child : MyApp() , server:  s));
 }
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: CommonColors.themeColorBlue ,
+        primaryColor: CommonColors.themeColorBlue,
         scaffoldBackgroundColor: CommonColors.themeColorPlatinum,
         errorColor: CommonColors.red,
         buttonColor: CommonColors.green,
