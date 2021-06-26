@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'restaurant_predicate.dart';
 
 class SearchSheet extends StatelessWidget {
 
-  static final _formKey = GlobalKey<FormState>();
-  final _predicate = RestaurantPredicate();
+  final _formKey = GlobalKey<FormState>();
+  final RestaurantPredicate _predicate;
+
+  SearchSheet(this._predicate);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +22,14 @@ class SearchSheet extends StatelessWidget {
                 hintText: Strings.get('restaurant-name-hint'),
                 icon: Icon(Icons.restaurant),
               ),
+              initialValue: _predicate.name,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.get('search-name-empty');
                 }
               },
               onSaved: (value) {
-                _predicate.name = value ?? '';
+                _predicate.name = value;
               },
             ),
             SizedBox(height: 15,),
@@ -43,6 +45,6 @@ class SearchSheet extends StatelessWidget {
       return;
     }
     _formKey.currentState!.save();
-    Navigator.of(context).pop(_predicate.generate());
+    Navigator.of(context).pop(true);
   }
 }
