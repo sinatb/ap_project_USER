@@ -28,7 +28,8 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
     var server = Head.of(context).server;
     if (predicate.isNull) {
       if (!isLoaded) {
-        server.getRecommendedRestaurants().then((value) async {
+        print('calling get');
+        server.getRecommendedRestaurants().then((value) {
             _r = value ;
             setState(() {
               isLoaded = true;
@@ -37,7 +38,8 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       }
     } else {
       if (!isLoaded) {
-        server.filterRecommendedRestaurants(predicate).then((value) async {
+        print('calling filter');
+        server.filterRecommendedRestaurants(predicate).then((value) {
           _r = value;
           setState(() {
             isLoaded = true;
@@ -57,6 +59,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           leading: predicate.isNull ? IconButton(icon: Icon(Icons.search,color: Theme.of(context).iconTheme.color,),tooltip: Strings.get('app-bar-leading-search'), onPressed: searchPressed)
           : IconButton(icon: Icon(Icons.close,color: Theme.of(context).iconTheme.color,), onPressed: () => setState(() {
             predicate.setNull();
+            isLoaded = false;
           })),
         ),
         SliverToBoxAdapter(
@@ -136,7 +139,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   void searchPressed() async {
     var result = await showModalBottomSheet(context: context, builder: (context) => SearchSheet(predicate));
     if (result == true) {
-      setState(() {});
+      setState(() {
+        isLoaded = false;
+      });
     }
   }
 
@@ -155,6 +160,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             _selectedCategory = index;
             predicate.category = category;
           }
+          isLoaded = false;
         });
       },
       child: AnimatedContainer(
