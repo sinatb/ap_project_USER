@@ -224,6 +224,7 @@ class _CartItemState extends State<CartItem> {
           child: TextFormField(
             initialValue: _discount?.code,
             validator: (value)  {
+              var loaded = false;
               if (value == null || value.isEmpty) {
                 _discount = null;
                 setState(() {
@@ -232,7 +233,15 @@ class _CartItemState extends State<CartItem> {
                 return null;
               }
               //how should i add await here :"|
-              _discount = await Head.of(context).server.validateDiscount(value);
+              var server = Head.of(context).server;
+              if (!loaded) {
+                  server.validateDiscount(value).then((value) async  {
+                    _discount = value as Discount;
+                    setState(() {
+                      loaded = true;
+                    });
+                  });
+              }
               if (_discount == null) {
                 return Strings.get('discount-invalid-code');
               }
@@ -250,7 +259,5 @@ class _CartItemState extends State<CartItem> {
       );
     });
   }
-  Future<Discount?> getDiscount(String code) async{
-    return await Head.of(context).server.validateDiscount(code);
-  }
+
 }
