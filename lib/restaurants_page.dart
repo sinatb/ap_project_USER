@@ -10,8 +10,8 @@ class RestaurantsPage extends StatefulWidget {
 
 class _RestaurantsPageState extends State<RestaurantsPage> {
 
-  bool Function(Restaurant)? _bottomSheetFilter;
-  FoodCategory? _categoryFilter;
+  final predicate = RestaurantPredicate();
+  List<Restaurant> _r = [];
   int Function(Restaurant, Restaurant)? _sortOrder;
   int _selectedChip = 0;
   int? _selectedCategory;
@@ -20,15 +20,19 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   final categories = [
     ...FoodCategory.values,
     ...FoodCategory.values,
-    ...FoodCategory.values,
   ];
 
   @override
   Widget build(BuildContext context) {
 
     var server = Head.of(context).server;
-    List<Restaurant> r = server.getRecommendedRestaurants(buildFilter());
-    r = server.sortRecommendedRestaurants(r, _sortOrder);
+    if (predicate.isNull) {
+      _r = server.getRecommendedRestaurants();
+    } else {
+      _r = server.filterRecommendedRestaurants(predicate);
+    }
+
+    _r = server.sortRecommendedRestaurants(_r, _sortOrder);
 
     return CustomScrollView(
       slivers: [
@@ -36,9 +40,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           floating: true,
           centerTitle: true,
           title: Text(Strings.get('app-bar-restaurants')! , style: Theme.of(context).textTheme.headline1,),
-          leading: _bottomSheetFilter == null ? IconButton(icon: Icon(Icons.search,color: Theme.of(context).iconTheme.color,),tooltip: Strings.get('app-bar-leading-search'), onPressed: searchPressed)
+          leading: predicate.isNull ? IconButton(icon: Icon(Icons.search,color: Theme.of(context).iconTheme.color,),tooltip: Strings.get('app-bar-leading-search'), onPressed: searchPressed)
           : IconButton(icon: Icon(Icons.close,color: Theme.of(context).iconTheme.color,), onPressed: () => setState(() {
-            _bottomSheetFilter = null;
+            predicate.setNull();
           })),
         ),
         SliverToBoxAdapter(
@@ -71,7 +75,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             ),
           ),
         ),
-        buildRestaurantList(r),
+        buildRestaurantList(_r),
       ],
     );
   }
@@ -116,11 +120,10 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   }
 
   void searchPressed() async {
-    var result = await showModalBottomSheet(context: context, builder: (context) => SearchSheet());
-    if (result == null) return;
-    setState(() {
-      _bottomSheetFilter = result;
-    });
+    var result = await showModalBottomSheet(context: context, builder: (context) => SearchSheet(predicate));
+    if (result == true) {
+      setState(() {});
+    }
   }
 
   Widget buildCategoryCard(int index) {
@@ -133,10 +136,10 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
         setState(() {
           if (isSelected) {
             _selectedCategory = null;
-            _categoryFilter = null;
+            predicate.category = null;
           } else {
             _selectedCategory = index;
-            _categoryFilter = category;
+            predicate.category = category;
           }
         });
       },
@@ -171,19 +174,6 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       return [BoxShadow(blurRadius: 0, spreadRadius: 5, color: Theme.of(context).accentColor.withOpacity(0.4))];
     }
     return [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
-  }
-
-  bool Function(Restaurant) buildFilter() {
-    return (Restaurant r) {
-      bool a = true, b = true;
-      if (_bottomSheetFilter != null) {
-        a = _bottomSheetFilter!(r);
-      }
-      if (_categoryFilter != null) {
-        b = r.foodCategories.contains(_categoryFilter);
-      }
-      return a && b;
-    };
   }
 
 }
