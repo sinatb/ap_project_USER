@@ -73,13 +73,14 @@ class OrderCard extends StatelessWidget {
         title: result['title'],
         message: result['message'],
     );
-    newComment.serialize(server.serializer);
-    (server.account as UserAccount).commentIDs.add(newComment.id!);
+    //newComment.serialize(server.serializer);
+    //the line under add new comment used to be here but now its under add new comment because add new comment automatically serializes the obj
     server.addNewComment(newComment);
+    (server.account as UserAccount).commentIDs.add(newComment.id!);
   }
 
-  void reorderPressed(BuildContext context) {
-    var newOrder = order.reorder();
+  void reorderPressed(BuildContext context) async {
+    var newOrder = await order.reorder();
     if (newOrder == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('reorder-fail')!,Duration(milliseconds: 2000))

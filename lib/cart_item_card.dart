@@ -88,7 +88,7 @@ class _CartItemState extends State<CartItem> {
     return total.apply(_discount!);
   }
 
-  void proceedPressed(){
+  void proceedPressed() async{
 
     var server = Head.of(context).server;
     var user = server.account as UserAccount;
@@ -102,6 +102,7 @@ class _CartItemState extends State<CartItem> {
       return;
     }
     widget.order.customer = user.toCustomerData(user.defaultAddress!);
+    widget.order.id = await Head.of(context).server.serialize("order");
     widget.order.sendRequest();
     user.activeOrders.add(widget.order);
     user.cart.remove(widget.order);
@@ -222,7 +223,7 @@ class _CartItemState extends State<CartItem> {
           key: formKey,
           child: TextFormField(
             initialValue: _discount?.code,
-            validator: (value) {
+            validator: (value)  {
               if (value == null || value.isEmpty) {
                 _discount = null;
                 setState(() {
@@ -230,7 +231,8 @@ class _CartItemState extends State<CartItem> {
                 });
                 return null;
               }
-              _discount = Head.of(context).server.validateDiscount(value);
+              //how should i add await here :"|
+              _discount = await Head.of(context).server.validateDiscount(value);
               if (_discount == null) {
                 return Strings.get('discount-invalid-code');
               }
@@ -247,5 +249,8 @@ class _CartItemState extends State<CartItem> {
         ],
       );
     });
+  }
+  Future<Discount?> getDiscount(String code) async{
+    return await Head.of(context).server.validateDiscount(code);
   }
 }

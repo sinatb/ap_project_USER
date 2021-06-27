@@ -12,6 +12,7 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
   Widget build(BuildContext context) {
     var user = (Head.of(context).server.account as UserAccount);
     var listID = user.favRestaurantIDs;
+    //this has to be changed!
     List<Restaurant> favRestaurants = List.generate(listID.length, (index) => Head.of(context).server.getObjectByID(listID.elementAt(index)) as Restaurant);
     return Scaffold(body:
         CustomScrollView(

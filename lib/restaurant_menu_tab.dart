@@ -10,7 +10,7 @@ class RestaurantMenuTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var menu = Head.of(context).server.getObjectByID(restaurant.menuID!) as FoodMenu;
+    var menu = getMenu(context) as FoodMenu;
     return CustomScrollView(
       slivers: [
         for (var category in menu.categories)
@@ -18,7 +18,10 @@ class RestaurantMenuTab extends StatelessWidget {
       ],
     );
   }
-
+  Future<FoodMenu> getMenu(BuildContext context) async{
+    var menu = await Head.of(context).server.getObjectByID(restaurant.menuID!) as FoodMenu;
+    return menu;
+  }
   List<Widget> buildFoodsByCategory(List<Food> foods, FoodCategory category, BuildContext context) {
     var headerStyle = Theme.of(context).textTheme.headline1!;
     return <Widget>[

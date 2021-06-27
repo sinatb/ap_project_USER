@@ -76,7 +76,6 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
       ),
     );
   }
-
   IconButton buildCheckoutIcon() {
     return IconButton(icon: Icon(Icons.check),
       tooltip: Strings.get('restaurant-page-accept-tooltip'),
@@ -90,6 +89,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
               items: orderedItems,
               restaurant: widget.restaurant
           );
+          //order does not have a serial is this ok ?? :/
           user.cart.add(order);
           ScaffoldMessenger.of(context).showSnackBar(
               showBar(Strings.get('foods-added-to-cart')!, Duration(milliseconds: 3000))
@@ -122,18 +122,19 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
       collapseMode: CollapseMode.pin,
     );
   }
-
+  // changes where made to list without invoking edit !
   buildFavoriteButton() {
-    var fr = (Head.of(context).server.account as UserAccount).favRestaurantIDs;
+    var user = Head.of(context).server.account as UserAccount;
+    var fr = user.favRestaurantIDs;
     var index = fr.indexOf(widget.restaurant.id!);
     return IconButton(
       icon: Icon((index > -1) ? Icons.favorite_rounded : Icons.favorite_border_rounded, color: Colors.pink,),
       onPressed: () {
         setState(() {
           if (index > -1) {
-            fr.removeAt(index);
+            user.removeRestaurant(widget.restaurant.id!);
           } else {
-            fr.add(widget.restaurant.id!);
+            user.addRestaurant(widget.restaurant.id!);
           }
         });
       },
