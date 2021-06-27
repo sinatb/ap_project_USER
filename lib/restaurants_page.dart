@@ -16,7 +16,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   int _selectedChip = 0;
   int? _selectedCategory;
   final chips = ['None', 'Closest', 'Score', 'test a', 'test b', 'test c', 'test d', 'test e'];
-
+  var isLoaded = false;
   final categories = [
     ...FoodCategory.values,
     ...FoodCategory.values,
@@ -27,9 +27,23 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
 
     var server = Head.of(context).server;
     if (predicate.isNull) {
-      _r = server.getRecommendedRestaurants();
+      if (!isLoaded) {
+        server.getRecommendedRestaurants().then((value) async {
+            _r = value ;
+            setState(() {
+              isLoaded = true;
+            });
+        });
+      }
     } else {
-      _r = server.filterRecommendedRestaurants(predicate);
+      if (!isLoaded) {
+        server.filterRecommendedRestaurants(predicate).then((value) async {
+          _r = value;
+          setState(() {
+            isLoaded = true;
+          });
+        });
+      }
     }
 
     _r = server.sortRecommendedRestaurants(_r, _sortOrder);

@@ -13,7 +13,13 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
     var user = (Head.of(context).server.account as UserAccount);
     var listID = user.favRestaurantIDs;
     //this has to be changed!
-    List<Restaurant> favRestaurants = List.generate(listID.length, (index) => Head.of(context).server.getObjectByID(listID.elementAt(index)) as Restaurant);
+    List<Restaurant> favRestaurants = List.generate(listID.length, (index) {
+        var retValue;
+        Head.of(context).server.getObjectByID(listID.elementAt(index)).then((value) async {
+            retValue = value as Restaurant;
+        });
+        return retValue;
+    });
     return Scaffold(body:
         CustomScrollView(
           slivers: [

@@ -8,12 +8,14 @@ class RestaurantComments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
 
     return commentIDs.isEmpty ? buildEmptyMessage() : ListView.builder(
       itemBuilder: (context, index) {
-        var comment = Head.of(context).server.getObjectByID(commentIDs[index]) as Comment;
+        var comment;
+        Head.of(context).server.getObjectByID(commentIDs[index]).then((value) async{
+          comment = value as Comment;
+        });
         return Container(
           margin: EdgeInsets.all(10),
           child: CommentTile(comment: comment, isForOwner: false),
