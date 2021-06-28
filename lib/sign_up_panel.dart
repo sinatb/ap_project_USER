@@ -141,10 +141,18 @@ class _SignUpPanelState extends State<SignUpPanel> {
     });
   }
 
-  void signUpPressed() {
+  void signUpPressed() async {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
-    server.signUpUser(firstName!, lastName!, phoneNumber!, password!, address!);
+
+    if (!await server.isPhoneNumberUnique(phoneNumber!)) {
+      setState(() {
+        _duplicateNumber = true;
+      });
+      return;
+    }
+
+    await server.signUpUser(firstName!, lastName!, phoneNumber!, password!, address!);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 
