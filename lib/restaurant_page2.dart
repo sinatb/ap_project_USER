@@ -89,8 +89,8 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
               items: orderedItems,
               restaurant: widget.restaurant
           );
-          //order does not have a serial is this ok ?? :/
-          user.cart.add(order);
+          //order does not have a serial is this ok ?? :/     - yes :)
+          user.addToCart(order);
           ScaffoldMessenger.of(context).showSnackBar(
               showBar(Strings.get('foods-added-to-cart')!, Duration(milliseconds: 3000))
           );

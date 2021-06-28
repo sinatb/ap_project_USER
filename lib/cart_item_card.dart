@@ -70,7 +70,7 @@ class _CartItemState extends State<CartItem> {
               setState(() {
                 widget.order.items.remove(data);
                 if (widget.order.items.isEmpty) {
-                  (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
+                  (Head.of(context).server.account as UserAccount).removeFromCart(widget.order);
                   widget.rebuildMenu();
                 }
               });
@@ -102,10 +102,9 @@ class _CartItemState extends State<CartItem> {
       return;
     }
     widget.order.customer = user.toCustomerData(user.defaultAddress!);
-    widget.order.id = await Head.of(context).server.serialize("order");
     widget.order.sendRequest();
     user.activeOrders.add(widget.order);
-    user.cart.remove(widget.order);
+    user.removeFromCart(widget.order);
     user.credit -= calculateTotalPrice(widget.order.totalCost);
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -121,7 +120,7 @@ class _CartItemState extends State<CartItem> {
 
     if (result == null || result == false) return;
 
-    (Head.of(context).server.account as UserAccount).cart.remove(widget.order);
+    (Head.of(context).server.account as UserAccount).removeFromCart(widget.order);
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('delete_order')!, Duration(milliseconds: 2000))

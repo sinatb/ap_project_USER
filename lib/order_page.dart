@@ -19,9 +19,7 @@ class _OrdersPageState extends State<OrdersPage> {
     final headerStyle = Theme.of(context).textTheme.headline1!;
 
     return RefreshIndicator(
-      onRefresh: () async {
-        return await Future.delayed(Duration(seconds: 1));
-      },
+      onRefresh: refreshList,
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -59,5 +57,38 @@ class _OrdersPageState extends State<OrdersPage> {
             ),
         )
     );
+  }
+
+  Future<void> refreshList() async {
+    var server = Head.of(context).server;
+    var account = server.account as UserAccount;
+    var newActiveOrders = <Order>[];
+    var newPreviousOrders = <Order>[];
+
+    for (var order in account.activeOrders) {
+      var newOrder = (await server.getObjectByID<Order>(order.id!)) as Order;
+      if (newOrder.isDelivered) {
+        newPreviousOrders.add(newOrder);
+      } else {
+        newActiveOrders.add(newOrder);
+      }
+    }
+    for (var order in account.previousOrders) {
+      var newOrder = (await server.getObjectByID<Order>(order.id!)) as Order;
+      if (newOrder.isDelivered) {
+        newPreviousOrders.add(newOrder);
+      } else {
+        newActiveOrders.add(newOrder);
+      }
+    }
+    account.activeOrders.clear();
+    account.activeOrders.addAll(newActiveOrders);
+    account.previousOrders.clear();
+    account.previousOrders.addAll(newPreviousOrders);
+    await account.justEditThis();
+    setState(() {
+
+    });
+    return await Future.delayed(Duration(milliseconds: 200));
   }
 }

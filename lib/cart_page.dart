@@ -45,7 +45,10 @@ class _UserCartState extends State<UserCart> {
       );
     return SliverToBoxAdapter(
         child : Center(
-          child : Text(Strings.get('cart-page-no-items-in-cart')!,style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: CommonColors.black),),
+          child : Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Text(Strings.get('cart-page-no-items-in-cart')!,style: TextStyle(fontSize: 16),),
+          ),
         )
     );
   }

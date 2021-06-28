@@ -84,7 +84,7 @@ class OrderCard extends StatelessWidget {
       );
       return;
     }
-    (Head.of(context).server.account as UserAccount).cart.add(newOrder);
+    (Head.of(context).server.account as UserAccount).addToCart(newOrder);
     ScaffoldMessenger.of(context).showSnackBar(
       showBar(Strings.get('reorder-success')!,Duration(milliseconds: 2000)),
     );
