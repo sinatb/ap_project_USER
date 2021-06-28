@@ -8,35 +8,34 @@ class FavouriteRestaurantsPage extends StatefulWidget {
 }
 
 class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
+
+  var loaded = false;
+  var r = <Restaurant>[];
+
   @override
   Widget build(BuildContext context) {
     var user = (Head.of(context).server.account as UserAccount);
-    var listID = user.favRestaurantIDs;
-    //this has to be changed!
-    List<Restaurant> favRestaurants = List.generate(listID.length, (index) {
-        var retValue;
-        Head.of(context).server.getObjectByID(listID.elementAt(index)).then((value) async {
-            retValue = value as Restaurant;
-        });
-        return retValue;
-    });
-    return Scaffold(body:
-        CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              centerTitle: true,
-              title: Text(Strings.get('fav-restaurants-app-bar')!),
-              leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
-                Navigator.pop(context);
-              },),
-              actions: [
-                  IconButton(icon: Icon(Icons.search),tooltip: Strings.get('app-bar-leading-search'),onPressed: (){}),
-              ],
-            ),
-            buildRestaurantList(favRestaurants),
-          ],
-        )
+
+    if (!loaded) {
+      getAllRestaurants(user.favRestaurantIDs).then((value) => setState(() {
+        loaded = true;
+      }));
+    }
+
+    return Scaffold(
+      body: loaded ? CustomScrollView (
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            centerTitle: true,
+            title: Text(Strings.get('fav-restaurants-app-bar')!),
+            leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
+              Navigator.pop(context);
+            },),
+          ),
+          buildRestaurantList(r),
+        ],
+      ) : Center(child: Text('loading...'),),
     );
   }
 
@@ -50,5 +49,12 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
             )
         )
     );
+  }
+
+  Future<void> getAllRestaurants(List<String> restaurantIDs) async {
+    var server = Head.of(context).server;
+    for (var id in restaurantIDs) {
+      r.add((await server.getObjectByID<Restaurant>(id)) as Restaurant);
+    }
   }
 }
