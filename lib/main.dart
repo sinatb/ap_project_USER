@@ -4,10 +4,7 @@ import 'sign_up_panel.dart';
 
 void main() {
   Server s = Server();
-  s.setSocket("192.168.1.3", 8081);
-  //s.setStatus(true);
-  // FakeData f = FakeData(s);
-  // f.fill();
+  s.setSocket("192.168.1.1", 8081);
   runApp(Head(child : MyApp() , server:  s));
 }
 
