@@ -4,7 +4,7 @@ import 'sign_up_panel.dart';
 
 void main() {
   Server s = Server();
-  s.setSocket("192.168.1.2", 8081);
+  s.setSocket("192.168.1.3", 8081);
   //s.setStatus(true);
   // FakeData f = FakeData(s);
   // f.fill();
@@ -26,8 +26,10 @@ class MyApp extends StatelessWidget {
           color: CommonColors.themeColorRed,
         ),
       textTheme: TextTheme(
-          headline1: TextStyle(color: CommonColors.themeColorRed ,fontWeight: FontWeight.bold, fontSize: 22),
-          headline2: TextStyle(color: CommonColors.themeColorBlack , fontSize: 20)
+        headline1: TextStyle(color: CommonColors.themeColorRed ,fontWeight: FontWeight.bold, fontSize: 22),
+        headline2: TextStyle(color: CommonColors.themeColorBlack , fontSize: 20),
+        bodyText1: TextStyle(fontSize: 18),
+        bodyText2: TextStyle(fontSize: 16),
       ),
     ),
       home: SignUpPanel(),

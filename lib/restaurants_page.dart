@@ -28,7 +28,6 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
     var server = Head.of(context).server;
     if (predicate.isNull) {
       if (!isLoaded) {
-        print('calling get');
         server.getRecommendedRestaurants().then((value) {
             _r = value ;
             setState(() {
@@ -38,7 +37,6 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       }
     } else {
       if (!isLoaded) {
-        print('calling filter');
         server.filterRecommendedRestaurants(predicate).then((value) {
           _r = value;
           setState(() {

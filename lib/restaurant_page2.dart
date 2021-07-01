@@ -56,10 +56,11 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
                 TabBar(
                   controller: _tabController,
                   tabs: _tabs,
-                  isScrollable: true,
+                  isScrollable: false,
                   labelColor: Theme.of(context).primaryColorDark,
                 ),
                 widget.restaurant,
+                widget.isInArea
               ),
               floating: true,
             ),
@@ -109,16 +110,14 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 2,
             children: [
-              buildArea(widget.isInArea, true),
-              buildScoreFill(widget.restaurant.score),
               buildFavoriteButton(),
             ],
           ),
         ),
         alignment: Alignment.bottomRight,
       ),
-      title: Text(widget.restaurant.name, style: TextStyle(fontSize: 15 , color: Theme.of(context).textTheme.headline1!.color),),
-      centerTitle: false,
+      title: Text(widget.restaurant.name, style: Theme.of(context).textTheme.headline2!),
+      centerTitle: true,
       collapseMode: CollapseMode.pin,
     );
   }
