@@ -16,8 +16,8 @@ class _UserCommentsPageState extends State<UserCommentsPage> {
   @override
   Widget build(BuildContext context) {
 
-    var server = Head.of(context).server;
-    var commentIDs = (server.account as UserAccount).commentIDs;
+    var server = Head.of(context).userServer;
+    var commentIDs = server.account.commentIDs;
     final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
 
     if (!loaded) {

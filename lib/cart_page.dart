@@ -12,7 +12,7 @@ class _UserCartState extends State<UserCart> {
 
   @override
   Widget build(BuildContext context) {
-    var cartList = (Head.of(context).server.account as UserAccount).cart;
+    var cartList = Head.of(context).userServer.account.cart;
     return CustomScrollView(
       slivers: [
           SliverAppBar(

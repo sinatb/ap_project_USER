@@ -70,7 +70,7 @@ class _CartItemState extends State<CartItem> {
               setState(() {
                 widget.order.items.remove(data);
                 if (widget.order.items.isEmpty) {
-                  (Head.of(context).server.account as UserAccount).removeFromCart(widget.order);
+                  Head.of(context).userServer.account.removeFromCart(widget.order);
                   widget.rebuildMenu();
                 }
               });
@@ -90,8 +90,8 @@ class _CartItemState extends State<CartItem> {
 
   void proceedPressed() async{
 
-    var server = Head.of(context).server;
-    var user = server.account as UserAccount;
+    var server = Head.of(context).userServer;
+    var user = server.account;
     if (!server.isInArea(user.defaultAddress!, widget.order.restaurant.address, widget.order.restaurant.areaOfDispatch)) {
       showDialog(context: context, builder: (context) => buildOutsideAreaDialog());
       return;
@@ -120,7 +120,7 @@ class _CartItemState extends State<CartItem> {
 
     if (result == null || result == false) return;
 
-    (Head.of(context).server.account as UserAccount).removeFromCart(widget.order);
+    Head.of(context).userServer.account.removeFromCart(widget.order);
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('delete_order')!, Duration(milliseconds: 2000))
@@ -150,7 +150,7 @@ class _CartItemState extends State<CartItem> {
 
   buildInsufficientFundDialog() {
 
-    var user = (Head.of(context).server.account as UserAccount);
+    var user = Head.of(context).userServer.account;
     var _formKey = GlobalKey<FormState>();
 
     return AlertDialog(
@@ -232,7 +232,7 @@ class _CartItemState extends State<CartItem> {
                 return null;
               }
               //how should i add await here :"|
-              var server = Head.of(context).server;
+              var server = Head.of(context).userServer;
               if (!loaded) {
                   server.validateDiscount(value).then((value) async  {
                     _discount = value as Discount;

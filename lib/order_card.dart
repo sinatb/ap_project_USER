@@ -65,7 +65,7 @@ class OrderCard extends StatelessWidget {
   void showCommentBottomSheet(BuildContext context) async {
     var result = await showModalBottomSheet(context: context, builder: (context) => CommentBottomSheet());
     if (result == null) return;
-    var server = Head.of(context).server;
+    var server = Head.of(context).userServer;
     var newComment = Comment(
         server: server,
         restaurantID: order.restaurant.id!,
@@ -84,7 +84,7 @@ class OrderCard extends StatelessWidget {
       );
       return;
     }
-    (Head.of(context).server.account as UserAccount).addToCart(newOrder);
+    Head.of(context).userServer.account.addToCart(newOrder);
     ScaffoldMessenger.of(context).showSnackBar(
       showBar(Strings.get('reorder-success')!,Duration(milliseconds: 2000)),
     );

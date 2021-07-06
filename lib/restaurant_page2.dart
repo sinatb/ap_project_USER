@@ -82,8 +82,8 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
       tooltip: Strings.get('restaurant-page-accept-tooltip'),
       onPressed: () {
         if (orderedItems.isNotEmpty) {
-          var server = Head.of(context).server;
-          var user = server.account as UserAccount;
+          var server = Head.of(context).userServer;
+          var user = server.account;
           Order order = Order(
               server: server,
               customer: user.toCustomerData(user.defaultAddress!),
@@ -123,7 +123,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
   }
   // changes where made to list without invoking edit !
   buildFavoriteButton() {
-    var user = Head.of(context).server.account as UserAccount;
+    var user = Head.of(context).userServer.account;
     var fr = user.favRestaurantIDs;
     var index = fr.indexOf(widget.restaurant.id!);
     return IconButton(
@@ -141,7 +141,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
   }
 
   buildPreviousOrdersTab() {
-    var orders = Head.of(context).server.account!.previousOrders
+    var orders = Head.of(context).userServer.account.previousOrders
     .where((order) => order.restaurant.id == widget.restaurant.id);
     if (orders.isEmpty) {
       return Center(

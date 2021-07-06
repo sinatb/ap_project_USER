@@ -18,7 +18,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
   
   @override
   Widget build(BuildContext context) {
-    user = Head.of(context).server.account as UserAccount;
+    user = Head.of(context).userServer.account;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

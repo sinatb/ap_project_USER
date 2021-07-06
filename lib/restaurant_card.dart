@@ -10,8 +10,8 @@ class RestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var server = Head.of(context).server;
-    var user = server.account as UserAccount;
+    var server = Head.of(context).userServer;
+    var user = server.account;
     var isInArea = server.isInArea(user.defaultAddress!, restaurant.address, restaurant.areaOfDispatch);
     return Card(
       child: Material(

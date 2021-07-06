@@ -25,7 +25,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   @override
   Widget build(BuildContext context) {
 
-    var server = Head.of(context).server;
+    var server = Head.of(context).userServer;
     if (predicate.isNull) {
       if (!isLoaded) {
         server.getRecommendedRestaurants().then((value) {
@@ -118,7 +118,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   }
 
   void changeSortOrder() {
-    var user = Head.of(context).server.account as UserAccount;
+    var user = Head.of(context).userServer.account;
     double latitude = user.defaultAddress!.latitude;
     double longitude = user.defaultAddress!.longitude;
     switch(_selectedChip) {

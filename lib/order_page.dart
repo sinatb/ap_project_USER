@@ -13,8 +13,9 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
 
-    var activeOrders = (Head.of(context).server.account as UserAccount).activeOrders;
-    var previousOrders = (Head.of(context).server.account as UserAccount).previousOrders;
+    var server = Head.of(context).userServer;
+    var activeOrders = server.account.activeOrders;
+    var previousOrders = server.account.previousOrders;
 
     final headerStyle = Theme.of(context).textTheme.headline1!;
 
@@ -60,8 +61,8 @@ class _OrdersPageState extends State<OrdersPage> {
   }
 
   Future<void> refreshList() async {
-    var server = Head.of(context).server;
-    var account = server.account as UserAccount;
+    var server = Head.of(context).userServer;
+    var account = server.account;
     var newActiveOrders = <Order>[];
     var newPreviousOrders = <Order>[];
 

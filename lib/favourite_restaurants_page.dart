@@ -14,7 +14,7 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var user = (Head.of(context).server.account as UserAccount);
+    var user = Head.of(context).userServer.account;
 
     if (!loaded) {
       getAllRestaurants(user.favRestaurantIDs).then((value) => setState(() {

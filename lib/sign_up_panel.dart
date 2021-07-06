@@ -12,7 +12,7 @@ class SignUpPanel extends StatefulWidget {
 
 class _SignUpPanelState extends State<SignUpPanel> {
 
-  late Server server;
+  late UserServer server;
   String? phoneNumber;
   String? password;
   String? firstName;
@@ -37,7 +37,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
   @override
   Widget build(BuildContext context) {
 
-    server = Head.of(context).server;
+    server = Head.of(context).userServer;
 
     return Scaffold(
       body: Container(
@@ -156,7 +156,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
       return;
     }
 
-    await server.signUpUser(firstName!, lastName!, phoneNumber!, password!, address!);
+    await server.signUp(firstName!, lastName!, phoneNumber!, password!, address!);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 
