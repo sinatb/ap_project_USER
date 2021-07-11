@@ -3,6 +3,7 @@ import 'package:models/models.dart';
 import 'favourite_restaurants_page.dart';
 import 'user_comments.dart';
 import 'add_address.dart';
+import 'sign_up_panel.dart';
 
 class UserAccountPage extends StatefulWidget {
   @override
@@ -32,6 +33,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
           buildCommentsTile(),
           buildRestaurantsTile(),
           buildAddressesTile(),
+          buildLogoutTile(),
         ],
       ),
     );
@@ -221,6 +223,18 @@ class _UserAccountPageState extends State<UserAccountPage> {
         },
         ),
       ],
+    );
+  }
+
+  Widget buildLogoutTile() {
+    final color = Colors.red[700];
+    return ExpansionTile(
+      title: Text(Strings.get('logout')!, style: TextStyle(color: color),),
+      leading: Icon(Icons.logout, color: color,),
+      onExpansionChanged: (isOpen) async {
+        await Head.of(context).server.logout();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignUpPanel()), (route) => false);
+      },
     );
   }
 }
