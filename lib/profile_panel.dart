@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/favourite_restaurants_page.dart';
+import 'favourite_restaurants_page.dart';
 import 'user_comments.dart';
 import 'add_address.dart';
 

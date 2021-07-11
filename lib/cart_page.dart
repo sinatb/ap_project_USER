@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:user/cart_item_card.dart';
-import 'user_account.dart';
+import 'profile_panel.dart';
 
 class UserCart extends StatefulWidget {
   @override
