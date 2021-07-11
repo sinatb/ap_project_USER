@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/order_bottomsheet.dart';
+import 'order_bottomsheet.dart';
 
 class FoodCard extends StatelessWidget {
 

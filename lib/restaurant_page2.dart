@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/order_card.dart';
+import 'order_card.dart';
 import 'restaurant_page_header.dart';
-import 'package:user/restaurant_menu_tab.dart';
-import 'package:user/restaurant_comments_tab.dart';
+import 'restaurant_menu_tab.dart';
+import 'restaurant_comments_tab.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;

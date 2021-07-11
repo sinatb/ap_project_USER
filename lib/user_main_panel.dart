@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/cart_page.dart';
-import 'package:user/order_page.dart';
+import 'cart_page.dart';
+import 'order_page.dart';
 import 'restaurants_page.dart';
 
 class MainPanel extends StatefulWidget {

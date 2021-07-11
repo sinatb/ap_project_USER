@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/restaurant_card.dart';
+import 'restaurant_card.dart';
 
 class FavouriteRestaurantsPage extends StatefulWidget {
   @override

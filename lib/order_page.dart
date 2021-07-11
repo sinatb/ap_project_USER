@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:user/order_card.dart';
+import 'order_card.dart';
 
 class OrdersPage extends StatefulWidget {
   @override
