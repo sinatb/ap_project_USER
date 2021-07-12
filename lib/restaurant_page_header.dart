@@ -51,7 +51,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               buildScoreFill(_restaurant.score, iconSize: 18),
-              buildCommentsCount(_restaurant.commentIDs.length, iconSize: 18),
+              buildCommentsCount(_restaurant.numberOfComments, iconSize: 18),
             ],
           ),
         ],
