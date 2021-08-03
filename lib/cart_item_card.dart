@@ -88,7 +88,7 @@ class _CartItemState extends State<CartItem> {
     return total.apply(_discount!);
   }
 
-  void proceedPressed() async{
+  void proceedPressed() async {
 
     var server = Head.of(context).userServer;
     var user = server.account;
@@ -102,10 +102,7 @@ class _CartItemState extends State<CartItem> {
       return;
     }
     widget.order.customer = user.toCustomerData(user.defaultAddress!);
-    widget.order.sendRequest();
-    user.activeOrders.add(widget.order);
-    user.removeFromCart(widget.order);
-    user.credit -= calculateTotalPrice(widget.order.totalCost);
+    await widget.order.sendRequest(calculateTotalPrice(widget.order.totalCost));
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
       showBar(Strings.get('order-completed')!, Duration(milliseconds: 2000),),
