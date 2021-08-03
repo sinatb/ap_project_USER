@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'discount_dialog.dart';
+
 class CartItem extends StatefulWidget {
   final Order order;
   final VoidCallback rebuildMenu;
@@ -103,6 +105,9 @@ class _CartItemState extends State<CartItem> {
     }
     widget.order.customer = user.toCustomerData(user.defaultAddress!);
     await widget.order.sendRequest(calculateTotalPrice(widget.order.totalCost));
+    if (_discount != null) {
+      await server.useDiscount(_discount!);
+    }
     widget.rebuildMenu();
     ScaffoldMessenger.of(context).showSnackBar(
       showBar(Strings.get('order-completed')!, Duration(milliseconds: 2000),),
@@ -210,50 +215,9 @@ class _CartItemState extends State<CartItem> {
     return Text('${_discount!.percent}% ${widget.order.totalCost.apply(_discount!)}');
   }
 
-  void discountPressed() {
-    var formKey = GlobalKey<FormState>();
-    showDialog(context: context, builder: (context) {
-      return AlertDialog(
-        title: Text(Strings.get('discount-dialog-title')!),
-        content: Form(
-          key: formKey,
-          child: TextFormField(
-            initialValue: _discount?.code,
-            validator: (value)  {
-              var loaded = false;
-              if (value == null || value.isEmpty) {
-                _discount = null;
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-                return null;
-              }
-              //how should i add await here :"|
-              var server = Head.of(context).userServer;
-              if (!loaded) {
-                  server.validateDiscount(value).then((value) async  {
-                    _discount = value as Discount;
-                    setState(() {
-                      loaded = true;
-                    });
-                  });
-              }
-              if (_discount == null) {
-                return Strings.get('discount-invalid-code');
-              }
-              setState(() {
-                Navigator.of(context).pop();
-              });
-            },
-          ),
-        ),
-        actions: [
-          TextButton(child: Text(Strings.get('apply')!), onPressed: () {
-            formKey.currentState!.validate();
-          }),
-        ],
-      );
-    });
+  void discountPressed() async {
+    _discount = await showDialog(context: context, builder: (context) => DiscountDialog(previousValue: _discount), barrierDismissible: false);
+      setState(() {});
   }
 
 }
