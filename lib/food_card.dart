@@ -37,10 +37,16 @@ class FoodCard extends StatelessWidget {
             child: TextButton(
               child: Text(Strings.get('restaurant-page-button')!),
               onPressed: () async {
-                orderedItems.addAll(await showModalBottomSheet(
+                var result = await showModalBottomSheet<MapEntry<FoodData, int>>(
                     context: context,
-                    builder: (context) => OrderFood(food)
-                ));
+                    builder: (context) => OrderFood(food, orderedItems[food.toFoodData()])
+                );
+                if (result == null) return;
+                if (result.value == 0) {
+                  orderedItems.remove(result.key);
+                  return;
+                }
+                orderedItems[result.key] = result.value;
               },
             ),
             flex: 1,

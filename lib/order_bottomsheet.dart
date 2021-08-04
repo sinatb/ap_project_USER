@@ -6,7 +6,8 @@ class OrderFood extends StatelessWidget {
   static final _formKey = GlobalKey<FormState>();
 
   final Food food;
-  OrderFood(this.food) : super();
+  final int? previouslyAdded;
+  OrderFood(this.food, this.previouslyAdded) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,12 @@ class OrderFood extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               width: phoneSize.width,
               height: phoneSize.height / 4,
               child : food.image,
             ),
+            Divider(color: Colors.grey,),
             Padding(
               padding: EdgeInsets.all(10),
               child: Row(
@@ -63,10 +66,13 @@ class OrderFood extends StatelessWidget {
         decoration: InputDecoration(
           hintText: Strings.get('order-bottom-sheet-number'),
         ),
+        initialValue: previouslyAdded?.toString(),
         keyboardType: TextInputType.number,
         validator: (String? num) {
+
+          //counts as zero
           if (num == null || num.isEmpty) {
-            return Strings.get('order-bottom-sheet-empty-error');
+            return null;
           }
 
           var parsed = int.tryParse(num);
@@ -75,22 +81,24 @@ class OrderFood extends StatelessWidget {
             return Strings.get('add-fund-invalid-number');
           }
 
-          if (parsed <= 0) {
+          if (parsed < 0) {
             return Strings.get('order-bottom-sheet-negative-error');
           }
-
-          if (!food.isAvailable) {
-            return Strings.get('order-bottom-sheet-not-available');
-          }
         },
-        onSaved: (num) => _numberOfFoods = int.tryParse(num!)!,
+        onSaved: (num) {
+          if (num == null || num.isEmpty) {
+            _numberOfFoods = 0;
+            return;
+          }
+          _numberOfFoods = int.parse(num);
+        }
       ),
     );
   }
   orderPressed(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.pop(context, {food.toFoodData(): _numberOfFoods});
+      Navigator.pop(context, MapEntry(food.toFoodData(), _numberOfFoods));
     }
   }
 }
