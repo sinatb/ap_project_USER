@@ -15,7 +15,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   int Function(Restaurant, Restaurant)? _sortOrder;
   int _selectedChip = 0;
   int? _selectedCategory;
-  final chips = ['None', 'Closest', 'Score', 'test a', 'test b', 'test c', 'test d', 'test e'];
+  final chips = ['None', 'Closest', 'Furthest', 'Best Score', 'Worst Score'];
   var isLoaded = false;
   final categories = [
     ...FoodCategory.values,
@@ -74,7 +74,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
         // ),
         SliverToBoxAdapter(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List<Widget>.generate(chips.length, (index) => Padding(padding: EdgeInsets.symmetric(horizontal: 2.0), child: buildChoiceChip(index))),
@@ -125,11 +125,17 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       case 0:
         _sortOrder = null;
         break;
-      case 2:
+      case 3:
         _sortOrder = Server.onScore;
         break;
       case 1:
         _sortOrder = Server.createOnDistance(latitude, longitude);
+        break;
+      case 2:
+        _sortOrder = Server.createOnDistance(latitude, longitude, true);
+        break;
+      case 4:
+        _sortOrder = Server.onScoreReverse;
         break;
     }
   }
@@ -189,7 +195,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
 
   getCardShadow(bool isSelected) {
     if (isSelected) {
-      return [BoxShadow(blurRadius: 0, spreadRadius: 5, color: Theme.of(context).accentColor.withOpacity(0.4))];
+      return [BoxShadow(blurRadius: 0, spreadRadius: 5, color: Theme.of(context).primaryColor.withOpacity(0.4))];
     }
     return [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
   }
