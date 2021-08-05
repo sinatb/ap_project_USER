@@ -60,18 +60,18 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
             isLoaded = false;
           })),
         ),
-        SliverToBoxAdapter(
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            margin: EdgeInsets.all(6.0),
-            width: MediaQuery.of(context).size.width,
-            child: Text('Sort the results based on:', style: Theme.of(context).textTheme.bodyText1),
-            decoration: BoxDecoration(
-              color: Theme.of(context).highlightColor,
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-        ),
+        // SliverToBoxAdapter(
+        //   child: Container(
+        //     padding: EdgeInsets.all(10.0),
+        //     margin: EdgeInsets.all(6.0),
+        //     width: MediaQuery.of(context).size.width,
+        //     child: Text('Sort the results based on:', style: Theme.of(context).textTheme.bodyText1),
+        //     decoration: BoxDecoration(
+        //       color: Theme.of(context).highlightColor,
+        //       borderRadius: BorderRadius.circular(30),
+        //     ),
+        //   ),
+        // ),
         SliverToBoxAdapter(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),

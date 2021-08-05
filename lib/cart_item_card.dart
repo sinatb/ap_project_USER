@@ -5,7 +5,7 @@ import 'discount_dialog.dart';
 class CartItem extends StatefulWidget {
   final Order order;
   final VoidCallback rebuildMenu;
-  CartItem(this.order , this.rebuildMenu) : super();
+  CartItem(this.order , this.rebuildMenu, {Key? key}) : super(key: key);
 
   @override
   _CartItemState createState() => _CartItemState();
@@ -66,7 +66,7 @@ class _CartItemState extends State<CartItem> {
             onPressed: () async {
               var res = await showDialog(
                   context: context,
-                  builder: (context)=>buildRemoveDialog()
+                  builder: (context) => buildRemoveDialog()
               );
               if (!res) return;
               setState(() {

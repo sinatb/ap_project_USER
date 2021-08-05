@@ -102,7 +102,8 @@ class _SignUpPanelState extends State<SignUpPanel> {
                       }
                     },
                   ),
-                  buildModelButton(Strings.get('sign-up-button')!, Theme.of(context).accentColor, signUpPressed),
+                  const SizedBox(height: 15,),
+                  buildModelButton(Strings.get('sign-up-button')!, Theme.of(context).primaryColor, signUpPressed),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

@@ -12,6 +12,7 @@ class _UserCartState extends State<UserCart> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
     var cartList = Head.of(context).userServer.account.cart;
     return CustomScrollView(
       slivers: [
@@ -39,15 +40,15 @@ class _UserCartState extends State<UserCart> {
           padding: EdgeInsets.all(10),    
           sliver: SliverList(
             delegate: SliverChildListDelegate(
-              o.map((e) => CartItem(e,()=>setState((){}))).toList(),
+              o.map((e) => CartItem(e, ()=>setState((){}), key: UniqueKey(),)).toList(),
             ),
           ),
       );
     return SliverToBoxAdapter(
         child : Center(
           child : Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Text(Strings.get('cart-page-no-items-in-cart')!,style: TextStyle(fontSize: 16),),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+            child: Text(Strings.get('cart-page-no-items-in-cart')!, style: TextStyle(fontSize: 16),),
           ),
         )
     );
