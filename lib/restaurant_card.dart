@@ -15,6 +15,7 @@ class RestaurantCard extends StatelessWidget {
     var isInArea = server.isInArea(user.defaultAddress!, restaurant.address, restaurant.areaOfDispatch);
     return Card(
       child: Material(
+        color: Theme.of(context).cardColor,
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantPage(restaurant, isInArea)));
