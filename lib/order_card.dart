@@ -7,15 +7,15 @@ class OrderCard extends StatelessWidget {
   final Order order;
   OrderCard(this.order) : super();
 
-  final headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-  final otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
-
   @override
   Widget build(BuildContext context) {
 
     return Card(
         child : ExpansionTile(
-          title: Text(order.restaurant.name , style:headerStyle,),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3.0),
+            child: Text(order.restaurant.name , style: Theme.of(context).textTheme.headline5,),
+          ),
           subtitle: Wrap(
             direction: Axis.vertical,
             spacing: 5,
@@ -32,14 +32,17 @@ class OrderCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(order.code),
             ),
-            ...buildListOfItems(),
+            ...buildListOfItems(context),
             if (order.isDelivered)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildModelButton(Strings.get('orders-reorder-button')!, CommonColors.green! , () => reorderPressed(context)),
-                  buildModelButton(Strings.get('orders-comment-button')!, CommonColors.green! , () => showCommentBottomSheet(context))
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildModelButton(Strings.get('orders-comment-button')!, Theme.of(context).buttonColor, () => showCommentBottomSheet(context)),
+                    buildModelButton(Strings.get('orders-reorder-button')!, Theme.of(context).accentColor, () => reorderPressed(context)),
+                  ],
+                ),
               ),
           ],
           childrenPadding: const EdgeInsets.all(10),
@@ -47,17 +50,17 @@ class OrderCard extends StatelessWidget {
     );
   }
 
-  List<Widget> buildListOfItems() {
+  List<Widget> buildListOfItems(BuildContext context) {
     List<Widget> retValue = [];
-    order.items.forEach((key, value) => retValue.add(buildOrderItem(key, value)));
+    order.items.forEach((key, value) => retValue.add(buildOrderItem(key, value, context)));
     return retValue;
   }
 
-  Widget buildOrderItem(FoodData data , int count) {
+  Widget buildOrderItem(FoodData data , int count, BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(data.name , style: headerStyle,),
-        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' , style: otherStyle,),
+        title: Text(data.name , style: Theme.of(context).textTheme.headline5,),
+        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}'),
         ),
       );
   }

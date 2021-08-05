@@ -13,15 +13,21 @@ class CartItem extends StatefulWidget {
 
 class _CartItemState extends State<CartItem> {
 
-  TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-  TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
+  late TextStyle? headerStyle;
+  late TextStyle? otherStyle;
   Discount? _discount;
 
   @override
   Widget build(BuildContext context) {
+    headerStyle = Theme.of(context).textTheme.headline5;
+    otherStyle = Theme.of(context).textTheme.bodyText1;
+
     return Card(
       child : ExpansionTile(
-          title: Text(widget.order.restaurant.name , style:headerStyle,),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3.0),
+            child: Text(widget.order.restaurant.name , style: headerStyle,),
+          ),
           subtitle: Wrap(
             direction: Axis.vertical,
             spacing: 5,
@@ -37,9 +43,9 @@ class _CartItemState extends State<CartItem> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildModelButton(Strings.get('cart-page-proceed')!, CommonColors.green!, proceedPressed),
-                buildModelButton(Strings.get('cart-page-delete')!, CommonColors.red!, deletePressed),
-                buildModelButton(Strings.get('discount-button')!, Theme.of(context).buttonColor, discountPressed)
+                TextButton(onPressed: deletePressed, child: Text(Strings.get('cart-page-delete')!, style: TextStyle(color: Theme.of(context).errorColor),)),
+                TextButton(onPressed: discountPressed, child: Text(Strings.get('discount-button')!)),
+                TextButton(onPressed: proceedPressed, child: Text(Strings.get('cart-page-proceed')!)),
               ],
             )
           ],
@@ -60,9 +66,9 @@ class _CartItemState extends State<CartItem> {
       child: Card(
         child: ListTile(
           title: Text(data.name , style: headerStyle,),
-          subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' , style: otherStyle,),
+          subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' ,),
           trailing: IconButton(
-            icon: Icon(Icons.remove_circle_rounded, color: CommonColors.red,),
+            icon: Icon(Icons.remove_circle_rounded, color: Theme.of(context).colorScheme.error,),
             onPressed: () async {
               var res = await showDialog(
                   context: context,
@@ -136,7 +142,6 @@ class _CartItemState extends State<CartItem> {
       content: SingleChildScrollView(
         child: Text(Strings.get('remove-food-dialog-message')!),
       ),
-      contentTextStyle: TextStyle(fontSize: 15, color: CommonColors.black),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),

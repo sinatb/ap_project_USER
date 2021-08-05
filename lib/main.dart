@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 const colorScheme1 = ColorScheme(
   primary: CommonColors.themeColorBlue,
   onPrimary: CommonColors.themeColorPlatinumLight,
-  primaryVariant: CommonColors.themeColorBlueDark,
+  primaryVariant: CommonColors.themeColorBlueLight,
   error: CommonColors.themeColorRed,
   onError: CommonColors.themeColorPlatinumLight,
   secondary: CommonColors.themeColorYellow,
@@ -46,5 +46,6 @@ const textTheme1 = TextTheme(
   headline4: TextStyle(color: CommonColors.themeColorPlatinumLight ,fontWeight: FontWeight.bold, fontSize: 22),
   headline1: TextStyle(color: CommonColors.themeColorBlack, fontSize: 22, fontWeight: FontWeight.normal),
   headline2: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.bold, fontSize: 22),
+  headline5: TextStyle(color: CommonColors.themeColorBlack, fontSize: 18, fontWeight: FontWeight.w600),
 );
 

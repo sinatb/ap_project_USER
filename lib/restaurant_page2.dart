@@ -116,7 +116,7 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
         ),
         alignment: Alignment.bottomRight,
       ),
-      title: Text(widget.restaurant.name, style: Theme.of(context).textTheme.headline2!),
+      title: Text(widget.restaurant.name, style: Theme.of(context).textTheme.headline1!),
       centerTitle: true,
       collapseMode: CollapseMode.pin,
     );

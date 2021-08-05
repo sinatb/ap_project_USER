@@ -17,7 +17,7 @@ class _OrdersPageState extends State<OrdersPage> {
     var activeOrders = server.account.activeOrders;
     var previousOrders = server.account.previousOrders;
 
-    final headerStyle = Theme.of(context).textTheme.headline1!;
+    final headerStyle = Theme.of(context).textTheme.headline1!.copyWith(color: Theme.of(context).colorScheme.secondaryVariant);
 
     return RefreshIndicator(
       onRefresh: refreshList,

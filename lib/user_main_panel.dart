@@ -18,21 +18,22 @@ class _MainPanelState extends State<MainPanel> {
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
+
   Widget buildBottomNavigationBar()
   {
+    var black = Theme.of(context).colorScheme.onBackground;
     return BottomNavigationBar(
-        items:[
-
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined,color: CommonColors.black,),
+            icon: Icon(Icons.shopping_cart_outlined,color: black,),
             label: Strings.get('bottom-nav-cart'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu_outlined,color: CommonColors.black,),
+            icon: Icon(Icons.restaurant_menu_outlined,color: black,),
             label: Strings.get('bottom-nav-restaurants'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined,color: CommonColors.black,),
+            icon: Icon(Icons.fastfood_outlined,color: black,),
             label: Strings.get('bottom-nav-orders'),
           ),
         ],

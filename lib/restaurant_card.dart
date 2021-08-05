@@ -62,11 +62,4 @@ class RestaurantCard extends StatelessWidget {
       ),
     );
   }
-
-  List<Widget> returnFoodCategory(FoodMenu m) {
-    return <Widget>[
-      for (var f in m.categories)
-        Text(f.toString().substring(13) , style: TextStyle(fontSize: 10 , color: CommonColors.black),),
-    ];
-  }
 }

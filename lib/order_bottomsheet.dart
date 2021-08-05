@@ -13,8 +13,7 @@ class OrderFood extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Size phoneSize = MediaQuery.of(context).size;
-    TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-    TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
+    var headerStyle = Theme.of(context).textTheme.headline5;
 
     return SingleChildScrollView(
         child: Column(
@@ -33,17 +32,19 @@ class OrderFood extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(food.name, style: headerStyle,),
-                  Text(food.price.toString(), style: otherStyle,)
+                  Text(food.price.toString())
                 ],
               ),
             ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text('Description: ', style: otherStyle,),
+              child: Text('Description: ',
+                style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onBackground),
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text(food.description, style: otherStyle,),
+              child: Text(food.description),
             ),
             if (food.isAvailable)
               Padding(
@@ -52,8 +53,9 @@ class OrderFood extends StatelessWidget {
               ),
             if (food.isAvailable)
               Center(
-                child: buildModelButton(Strings.get('order-bottom-sheet-order')!, CommonColors.green!, () => orderPressed(context)),
+                child: buildModelButton(Strings.get('order-bottom-sheet-order')!, Theme.of(context).accentColor, () => orderPressed(context)),
               ),
+            const SizedBox(height: 10,),
           ],
         )
     );

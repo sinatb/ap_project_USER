@@ -13,8 +13,6 @@ class UserAccountPage extends StatefulWidget {
 class _UserAccountPageState extends State<UserAccountPage> {
   
   var _formKey = GlobalKey<FormState>();
-  TextStyle headerStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CommonColors.black);
-  TextStyle otherStyle = TextStyle(fontSize: 15, color: CommonColors.black);
   late UserAccount user;
   
   @override
@@ -57,7 +55,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
       leading: Icon(Icons.attach_money_rounded),
       maintainState: true,
       children: [
-        Text('Current credit : ' + user.credit.toString(), style: otherStyle,),
+        Text('Current credit : ' + user.credit.toString()),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -88,7 +86,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
               ),
             ),
             Flexible(
-                child: buildModelButton('Add', CommonColors.green!, addPressed)
+                child: buildModelButton('Add', Theme.of(context).colorScheme.primaryVariant, addPressed)
             ),
           ],
         ),
