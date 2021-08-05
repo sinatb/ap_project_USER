@@ -50,6 +50,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Theme.of(context).cardColor,
+            boxShadow: Shadows.wide(),
           ),
           padding: const EdgeInsets.all(15),
           child: Form(
@@ -58,7 +59,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(Strings.get('sign-up-header')!, style: Theme.of(context).textTheme.headline6,),
+                  Text(Strings.get('sign-up-header')!, style: Theme.of(context).textTheme.headline1,),
                   const SizedBox(height: 10,),
                   if (_duplicateNumber)
                     buildDuplicateNumberError(),

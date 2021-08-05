@@ -34,14 +34,17 @@ class RestaurantCard extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(restaurant.name, style: Theme.of(context).textTheme.headline6),
-                    ...restaurant.foodCategories.map((e) => Text(Strings.get(e.toString())!, style: Theme.of(context).textTheme.caption))
-                  ],
-                  direction: Axis.vertical,
-                  spacing: 3,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(restaurant.name, style: Theme.of(context).textTheme.headline6),
+                      ...restaurant.foodCategories.map((e) => Text(Strings.get(e.toString())!, style: Theme.of(context).textTheme.caption))
+                    ],
+                    direction: Axis.vertical,
+                    spacing: 3,
+                  ),
                 ),
                 Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
