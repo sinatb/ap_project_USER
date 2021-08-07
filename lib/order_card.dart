@@ -30,7 +30,8 @@ class OrderCard extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(order.code),
+              child: Wrap(children: [Icon(Icons.code), Text(order.code, style: Theme.of(context).textTheme.bodyText1)],
+              crossAxisAlignment: WrapCrossAlignment.center, spacing: 5,),
             ),
             ...buildListOfItems(context),
             if (order.isDelivered)
@@ -60,7 +61,7 @@ class OrderCard extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(data.name , style: Theme.of(context).textTheme.headline5,),
-        subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}'),
+        subtitle: Text('${data.price} × $count = ${Price(data.price.toInt() * count)}'),
         ),
       );
   }

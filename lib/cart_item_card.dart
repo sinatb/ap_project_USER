@@ -64,7 +64,7 @@ class _CartItemState extends State<CartItem> {
       child: Card(
         child: ListTile(
           title: Text(data.name , style: headerStyle,),
-          subtitle: Text('${data.price} × $count = ${data.price.toInt() * count}' ,),
+          subtitle: Text('${data.price} × $count = ${Price(data.price.toInt() * count)}' ,),
           trailing: IconButton(
             icon: Icon(Icons.remove_circle_rounded, color: Theme.of(context).colorScheme.error,),
             onPressed: () async {

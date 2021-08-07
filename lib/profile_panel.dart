@@ -178,10 +178,10 @@ class _UserAccountPageState extends State<UserAccountPage> {
       ),
       child: ListTile(
         title: Text(address.name),
-        leading: Opacity(child: Icon(Icons.check_circle, color: Colors.green,), opacity: isDefault ? 1 : 0,),
+        leading: Opacity(child: Icon(Icons.check_circle, color: CommonColors.themeColorGreen,), opacity: isDefault ? 1 : 0,),
         subtitle: Text(address.text),
         visualDensity: VisualDensity.comfortable,
-        trailing: isDefault ? null : IconButton(icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.red,), onPressed: () {
+        trailing: isDefault ? null : IconButton(icon: Icon(Icons.remove_circle_outline_rounded, color: Theme.of(context).errorColor,), onPressed: () {
           setState(() {
             user.removeAddress(address);
           });

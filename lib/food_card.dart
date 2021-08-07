@@ -27,7 +27,7 @@ class FoodCard extends StatelessWidget {
           Flexible(
             child: ListTile(
               title: Text(food.name),
-              trailing: buildAvailableIcon(food.isAvailable),
+              trailing: buildAvailableIcon(food.isAvailable, context),
               subtitle: Text('${food.price} ${Strings.get('toman')}'),
             ),
             flex: 2,
@@ -56,10 +56,10 @@ class FoodCard extends StatelessWidget {
       ),
     );
   }
-  Widget buildAvailableIcon(isAvailable) {
+  Widget buildAvailableIcon(isAvailable, BuildContext context) {
     if (isAvailable) {
-      return Icon(Icons.check_circle, color: Colors.green,);
+      return Icon(Icons.check_circle, color: CommonColors.themeColorGreen,);
     }
-    return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
+    return Icon(Icons.highlight_remove_rounded, color: Theme.of(context).errorColor,);
   }
 }
