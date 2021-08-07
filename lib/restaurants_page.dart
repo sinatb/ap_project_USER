@@ -97,6 +97,14 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   }
 
   Widget buildRestaurantList(List<Restaurant> restaurants) {
+    if (restaurants.isEmpty) {
+      return SliverPadding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3.5),
+        sliver: SliverToBoxAdapter(
+          child: Center(child: Text(Strings.get('no-restaurant')!)),
+        ),
+      );
+    }
     return SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverList(
