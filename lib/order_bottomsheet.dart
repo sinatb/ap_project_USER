@@ -23,7 +23,7 @@ class OrderFood extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 8.0),
               width: phoneSize.width,
               height: phoneSize.height / 4,
-              child : food.image,
+              child : Image.asset('assets/default_food.jpg' , package: 'models',),
             ),
             Divider(color: Colors.grey,),
             Padding(
