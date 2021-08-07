@@ -205,15 +205,4 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
     return [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
   }
 
-  AssetImage getCategoryImage(FoodCategory category) {
-    switch (category) {
-      case FoodCategory.Iranian:
-        return AssetImage('assets/iranian.jpg', package: 'models');
-      case FoodCategory.FastFood:
-        return AssetImage('assets/fastfood.jpg', package: 'models');
-      case FoodCategory.SeaFood:
-        return AssetImage('assets/seafood.jpg', package: 'models');
-    }
-  }
-
 }
