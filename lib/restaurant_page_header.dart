@@ -29,7 +29,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Icon(Icons.location_on_outlined),
+              Icon(Icons.location_on_outlined, color: Theme.of(context).colorScheme.secondaryVariant,),
               const SizedBox(width: 5,),
               Text(_restaurant.address.text),
               const SizedBox(width: 5,),
@@ -40,7 +40,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Icon(Icons.restaurant_menu),
+              Icon(Icons.restaurant_menu, color: Theme.of(context).colorScheme.secondaryVariant,),
               const SizedBox(width: 5,),
               Text(createCategoriesString()),
             ],

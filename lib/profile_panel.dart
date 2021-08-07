@@ -173,7 +173,7 @@ class _UserAccountPageState extends State<UserAccountPage> {
       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: shadows,
       ),
       child: ListTile(

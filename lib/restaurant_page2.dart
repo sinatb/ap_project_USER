@@ -57,7 +57,8 @@ class _RestaurantPageState extends State<RestaurantPage> with SingleTickerProvid
                   controller: _tabController,
                   tabs: _tabs,
                   isScrollable: false,
-                  labelColor: Theme.of(context).primaryColorDark,
+                  labelColor: Theme.of(context).colorScheme.onBackground,
+                  indicatorColor: Theme.of(context).primaryColor,
                 ),
                 widget.restaurant,
                 widget.isInArea

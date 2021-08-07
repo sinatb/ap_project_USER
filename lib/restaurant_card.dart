@@ -16,6 +16,7 @@ class RestaurantCard extends StatelessWidget {
     return Card(
       child: Material(
         color: Theme.of(context).cardColor,
+        shape: Theme.of(context).cardTheme.shape,
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => RestaurantPage(restaurant, isInArea)));

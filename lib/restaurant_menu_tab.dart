@@ -30,10 +30,19 @@ class _RestaurantMenuTabState extends State<RestaurantMenuTab> {
 
     return CustomScrollView(
       slivers: loaded ? [
+        if (menu!.isEmpty)
+          SliverPadding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 4.25),
+            sliver: SliverToBoxAdapter(child: Center(child: Text(Strings.get('restaurant-menu-empty-message')!),),),
+          )
+        else
         for (var category in menu!.categories)
           ...buildFoodsByCategory(menu!.getFoods(category)!, category, context)
       ] : [
-        SliverToBoxAdapter(child: Center(child: Text('loading'),),)
+        SliverPadding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 4.2),
+          sliver: SliverToBoxAdapter(child: Center(child: Text('loading...'),),),
+        )
     ],
     );
   }

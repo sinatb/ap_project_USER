@@ -28,7 +28,7 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
           SliverAppBar(
             floating: true,
             centerTitle: true,
-            title: Text(Strings.get('fav-restaurants-app-bar')!),
+            title: Text(Strings.get('fav-restaurants-app-bar')!, style: Theme.of(context).textTheme.headline5,),
             leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
               Navigator.pop(context);
             },),
@@ -41,6 +41,14 @@ class _FavouriteRestaurantsPageState extends State<FavouriteRestaurantsPage> {
 
   Widget buildRestaurantList(List<Restaurant> restaurants)
   {
+    if (restaurants.isEmpty) {
+      return SliverPadding(
+        sliver: SliverToBoxAdapter(
+          child: Center(child: Text(Strings.get('no-favorite-restaurants')!)),
+        ),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+      );
+    }
     return SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverList(

@@ -14,13 +14,11 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
 
   late TextStyle? headerStyle;
-  late TextStyle? otherStyle;
   Discount? _discount;
 
   @override
   Widget build(BuildContext context) {
     headerStyle = Theme.of(context).textTheme.headline5;
-    otherStyle = Theme.of(context).textTheme.bodyText1;
 
     return Card(
       child : ExpansionTile(
@@ -197,7 +195,7 @@ class _CartItemState extends State<CartItem> {
               _formKey.currentState!.save();
               Navigator.of(context).pop();
             },
-            child: Text(Strings.get('fund-dialog-add-fund')!, style: otherStyle,)
+            child: Text(Strings.get('fund-dialog-add-fund')!)
         ),
       ],
     );

@@ -32,6 +32,7 @@ class _OrdersPageState extends State<OrdersPage> {
           activeOrders.isNotEmpty ?
             buildRestaurantList(activeOrders) :
             buildEmptyListMessage(Strings.get('orders-no-active-orders')!),
+          SliverToBoxAdapter(child: SizedBox(height: 15,),),
           buildHeader(Strings.get('orders-previous-orders-heading')!, headerStyle),
           previousOrders.isNotEmpty ?
             buildRestaurantList(previousOrders) :

@@ -12,7 +12,6 @@ class _UserCartState extends State<UserCart> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     var cartList = Head.of(context).userServer.account.cart;
     return CustomScrollView(
       slivers: [
@@ -48,7 +47,7 @@ class _UserCartState extends State<UserCart> {
         child : Center(
           child : Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
-            child: Text(Strings.get('cart-page-no-items-in-cart')!, style: TextStyle(fontSize: 16),),
+            child: Text(Strings.get('cart-page-no-items-in-cart')!, style: Theme.of(context).textTheme.bodyText2,),
           ),
         )
     );

@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
           elevation: 3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        cardColor: Color(0xfffaf9f5),
+        primaryColorDark: CommonColors.themeColorBlueDark,
+        cardColor: CommonColors.themeColorCard,
       ),
       home: SignUpPanel(),
     );
@@ -47,5 +48,8 @@ const textTheme1 = TextTheme(
   headline1: TextStyle(color: CommonColors.themeColorBlack, fontSize: 22, fontWeight: FontWeight.normal),
   headline2: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.bold, fontSize: 22),
   headline5: TextStyle(color: CommonColors.themeColorBlack, fontSize: 18, fontWeight: FontWeight.w600),
+  headline6: TextStyle(color: CommonColors.themeColorBlack),
+  bodyText1: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.normal),
+  bodyText2: TextStyle(color: CommonColors.themeColorBlackTransparent),
 );
 
