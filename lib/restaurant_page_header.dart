@@ -10,12 +10,14 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildDataCard(context),
-        Material(child: _tabBar),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildDataCard(context),
+          Material(child: _tabBar),
+        ],
+      ),
     );
   }
 
@@ -31,7 +33,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
             children: [
               Icon(Icons.location_on_outlined, color: Theme.of(context).colorScheme.secondaryVariant,),
               const SizedBox(width: 5,),
-              Text(_restaurant.address.text),
+              Text(_restaurant.address.text, style: Theme.of(context).textTheme.bodyText1,),
               const SizedBox(width: 5,),
               buildArea(_isInArea, fontSize: 14),
             ],
@@ -42,7 +44,7 @@ class RestaurantHeaderDelegate extends SliverPersistentHeaderDelegate {
             children: [
               Icon(Icons.restaurant_menu, color: Theme.of(context).colorScheme.secondaryVariant,),
               const SizedBox(width: 5,),
-              Text(createCategoriesString()),
+              Text(createCategoriesString(), style: Theme.of(context).textTheme.bodyText1,),
             ],
           ),
           const SizedBox(height: headerVerticalGap,),
