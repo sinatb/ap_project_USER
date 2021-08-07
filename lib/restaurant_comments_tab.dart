@@ -15,8 +15,6 @@ class _RestaurantCommentsState extends State<RestaurantComments> {
 
   @override
   Widget build(BuildContext context) {
-    final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
-
     if (!loaded) {
       loadAll().then((value) {
         setState(() {
@@ -27,12 +25,9 @@ class _RestaurantCommentsState extends State<RestaurantComments> {
 
     return loaded ? (widget.commentIDs.isEmpty ? buildEmptyMessage() : ListView.builder(
       itemBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.all(10),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: CommentTile(comment: comments[index], isForOwner: false),
-          decoration: BoxDecoration(
-            boxShadow: shadows,
-          ),
         );
       },
       itemCount: widget.commentIDs.length,

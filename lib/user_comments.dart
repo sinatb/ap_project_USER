@@ -18,7 +18,6 @@ class _UserCommentsPageState extends State<UserCommentsPage> {
 
     var server = Head.of(context).userServer;
     var commentIDs = server.account.commentIDs;
-    final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
 
     if (!loaded) {
       getAllComments(commentIDs).then((value) => setState(() {
@@ -28,17 +27,14 @@ class _UserCommentsPageState extends State<UserCommentsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.get('my-comments')!),
+        title: Text(Strings.get('my-comments')!, style: Theme.of(context).textTheme.headline5),
         centerTitle: true,
       ),
       body: loaded ? (commentIDs.isEmpty ? buildEmptyMessage() : ListView.builder(
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(10),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: CommentTile(comment: comments[index], isForOwner: false),
-            decoration: BoxDecoration(
-              boxShadow: shadows,
-            ),
           );
         },
         itemCount: commentIDs.length,
