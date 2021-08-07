@@ -58,6 +58,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           : IconButton(icon: Icon(Icons.close,color: Theme.of(context).iconTheme.color,), onPressed: () => setState(() {
             predicate.setNull();
             isLoaded = false;
+            _selectedCategory = null;
           })),
         ),
         // SliverToBoxAdapter(
@@ -175,7 +176,11 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(20),
           boxShadow: getCardShadow(isSelected),
-          // image: category image
+          image: DecorationImage(
+            image: getCategoryImage(categories[index]),
+            fit: BoxFit.fill,
+            colorFilter: ColorFilter.mode(Colors.white.withOpacity(isSelected ? 0.95 : 0.8), BlendMode.dstATop)
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: AspectRatio(
@@ -183,7 +188,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
           child: Container(
             height: width/10,
             child: Text(Strings.get(category.toString()) ?? 'unknown category', style: TextStyle(color: Theme.of(context).cardColor),),
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withOpacity(0.55),
             alignment: Alignment.center,
           ),
         ),
@@ -198,6 +203,17 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       return [BoxShadow(blurRadius: 0, spreadRadius: 5, color: Theme.of(context).primaryColor.withOpacity(0.4))];
     }
     return [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
+  }
+
+  AssetImage getCategoryImage(FoodCategory category) {
+    switch (category) {
+      case FoodCategory.Iranian:
+        return AssetImage('assets/iranian.jpg', package: 'models');
+      case FoodCategory.FastFood:
+        return AssetImage('assets/fastfood.jpg', package: 'models');
+      case FoodCategory.SeaFood:
+        return AssetImage('assets/seafood.jpg', package: 'models');
+    }
   }
 
 }

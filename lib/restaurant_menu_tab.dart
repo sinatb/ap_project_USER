@@ -47,7 +47,7 @@ class _RestaurantMenuTabState extends State<RestaurantMenuTab> {
     );
   }
   Future<FoodMenu> getMenu(BuildContext context) async{
-    var menu = await Head.of(context).server.getObjectByID<FoodMenu>(widget.restaurant.menuID!) as FoodMenu;
+    var menu = await Head.of(context).server.getObjectByID<FoodMenu>(widget.restaurant.menuID) as FoodMenu;
     return menu;
   }
   List<Widget> buildFoodsByCategory(List<Food> foods, FoodCategory category, BuildContext context) {
