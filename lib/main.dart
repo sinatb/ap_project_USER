@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Savvy Meals',
       theme: ThemeData.from(colorScheme: colorScheme1, textTheme: textTheme1)
           .copyWith(
         cardTheme: CardTheme(
