@@ -3,7 +3,7 @@
 ----
 
 ### Description
-This is one repository of the four repositories created for the final project of the **Advanced Programming course**, and contains dart code for our 'online' food ordering app. You can download and test the app for android [here](TODO).
+This is one repository of the four repositories created for the final project of the **Advanced Programming course**, and contains dart code for our 'online' food ordering app. You can download and test the app for android [here](https://github.com/sinatb/ap_project_USER/releases/download/v1.0.0/app-release.apk).
 
 ---
 
