@@ -19,13 +19,20 @@ and the java server here:
 
 ### Screenshots
 
-![Image](./screenshots/01.png)  
+<div align="center">
+    <img src="./screenshots/01.png" width="300"/>
+    <img src="./screenshots/02.png" width="300"/>
+</div>
 
-![Image](./screenshots/02.png)  
+<div align="center">
+    <img src="./screenshots/03.png" width="300"/>
+    <img src="./screenshots/04.png" width="300"/>
+</div>
 
-![Image](./screenshots/03.png)  
-
-![Image](./screenshots/04.png)  
+<div align="center">
+    <img src="./screenshots/05.png" width="300"/>
+    <img src="./screenshots/06.png" width="300"/>
+</div>
 
 ---
 
